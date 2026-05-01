@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReformIA</title>
+  <style>
+    :root {
+      --violet-900: #4a1fb8;
+      --violet-700: #6d3df0;
+      --violet-500: #8f6bff;
+      --violet-100: #f1ebff;
+      --white: #ffffff;
+      --text: #22203a;
+      --muted: #6b6890;
+      --shadow: 0 16px 40px rgba(74, 31, 184, 0.18);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(140deg, #ffffff 0%, #f5f1ff 40%, #efe7ff 100%);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .app {
+      width: min(920px, 100%);
+      background: var(--white);
+      border: 1px solid #ece7ff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(120deg, var(--violet-900), var(--violet-700));
+      color: var(--white);
+      padding: 26px 28px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 1.9rem;
+      letter-spacing: 0.3px;
+    }
+
+    .header p {
+      margin: 8px 0 0;
+      opacity: 0.95;
+    }
+
+    .content {
+      padding: 24px 28px 28px;
+      display: grid;
+      gap: 18px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--violet-900);
+    }
+
+    textarea,
+    select,
+    input {
+      width: 100%;
+      border: 1px solid #ddd5ff;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font: inherit;
+      color: var(--text);
+      background: #fcfbff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    textarea {
+      min-height: 170px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    textarea:focus,
+    select:focus,
+    input:focus {
+      outline: none;
+      border-color: var(--violet-500);
+      box-shadow: 0 0 0 4px rgba(143, 107, 255, 0.15);
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    button {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.08s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(120deg, var(--violet-900), var(--violet-700));
+      color: var(--white);
+      box-shadow: 0 8px 18px rgba(109, 61, 240, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--violet-100);
+      color: var(--violet-900);
+    }
+
+    .btn-secondary:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .output {
+      border: 1px dashed #cbbdff;
+      border-radius: 12px;
+      background: #faf8ff;
+      padding: 14px;
+      min-height: 140px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+      color: #2b2450;
+    }
+
+    .hint {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    @media (max-width: 640px) {
+      .header,
+      .content {
+        padding: 18px;
+      }
+
+      .header h1 {
+        font-size: 1.55rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <h1>ReformIA</h1>
+      <p>Réécris un texte IA avec un style plus naturel selon ton niveau scolaire.</p>
+    </header>
+
+    <section class="content">
+      <div>
+        <label for="apiKey">Clé API Groq</label>
+        <input id="apiKey" type="password" placeholder="gsk_..." autocomplete="off">
+      </div>
+
+      <div>
+        <label for="inputText">Texte à reformuler</label>
+        <textarea id="inputText" placeholder="Colle ici un texte généré par une IA..."></textarea>
+      </div>
+
+      <div>
+        <label for="level">Niveau scolaire</label>
+        <select id="level">
+          <option value="6ème">6ème</option>
+          <option value="5ème">5ème</option>
+          <option value="4ème">4ème</option>
+          <option value="3ème">3ème</option>
+          <option value="2nde">2nde</option>
+          <option value="1ère">1ère</option>
+          <option value="Terminale">Terminale</option>
+        </select>
+      </div>
+
+      <div class="controls">
+        <button class="btn-primary" id="reformulateBtn">Reformuler</button>
+        <button class="btn-secondary" id="copyBtn" disabled>Copier le résultat</button>
+      </div>
+
+      <div>
+        <label for="outputText">Résultat</label>
+        <div id="outputText" class="output">Le texte reformulé apparaîtra ici.</div>
+        <p class="hint">Ta clé API est utilisée uniquement dans cette page pour appeler Groq.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const apiKeyInput = document.getElementById("apiKey");
+    const reformulateBtn = document.getElementById("reformulateBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const inputText = document.getElementById("inputText");
+    const level = document.getElementById("level");
+    const outputText = document.getElementById("outputText");
+    const defaultButtonText = "Reformuler";
+    const loadingButtonText = "Reformulation en cours...";
+
+    reformulateBtn.addEventListener("click", async () => {
+      const apiKey = apiKeyInput.value.trim();
+      const authorizationHeader = `Bearer ${apiKey}`;
+      const original = inputText.value.trim();
+      const selectedLevel = level.value;
+
+      if (!apiKey) {
+        outputText.textContent = "Merci d'entrer ta clé API Groq avant de reformuler.";
+        copyBtn.disabled = true;
+        return;
+      }
+
+      if (!original) {
+        outputText.textContent = "Merci de coller un texte avant de cliquer sur Reformuler.";
+        copyBtn.disabled = true;
+        return;
+      }
+
+      const systemPrompt =
+        `Tu es un assistant qui réécrit des textes générés par une IA pour qu'ils ` +
+        `semblent écrits naturellement par un élève français de niveau ${selectedLevel}. ` +
+        `Adapte le vocabulaire, la syntaxe et le style à ce niveau scolaire. ` +
+        `Le texte doit sembler authentique, pas parfait, naturel. ` +
+        `Réponds uniquement avec le texte reformulé, rien d'autre.`;
+
+      reformulateBtn.disabled = true;
+      reformulateBtn.textContent = loadingButtonText;
+      copyBtn.disabled = true;
+      outputText.textContent = "Traitement de la reformulation...";
+
+      try {
+        console.log("Authorization header envoyé :", authorizationHeader);
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authorizationHeader
+          },
+          body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            temperature: 0.7,
+            messages: [
+              {
+                role: "system",
+                content: systemPrompt
+              },
+              {
+                role: "user",
+                content: original
+              }
+            ]
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          const apiMessage = data && data.error && data.error.message
+            ? data.error.message
+            : "Erreur API inconnue.";
+          throw new Error(apiMessage);
+        }
+
+        const resultText = data && data.choices && data.choices[0] &&
+          data.choices[0].message && typeof data.choices[0].message.content === "string"
+          ? data.choices[0].message.content.trim()
+          : "";
+
+        if (!resultText) {
+          throw new Error("Aucun texte reformulé n'a été renvoyé par Groq.");
+        }
+
+        outputText.textContent = resultText;
+        copyBtn.disabled = false;
+      } catch (error) {
+        outputText.textContent =
+          `Impossible de reformuler le texte : ${error.message}\n` +
+          "Vérifie ta clé API, ta connexion internet et réessaie.";
+        copyBtn.disabled = true;
+      } finally {
+        reformulateBtn.disabled = false;
+        reformulateBtn.textContent = defaultButtonText;
+      }
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(outputText.textContent);
+        copyBtn.textContent = "Copié !";
+        setTimeout(() => {
+          copyBtn.textContent = "Copier le résultat";
+        }, 1400);
+      } catch (error) {
+        copyBtn.textContent = "Impossible de copier";
+        setTimeout(() => {
+          copyBtn.textContent = "Copier le résultat";
+        }, 1400);
+      }
+    });
+  </script>
+</body>
+</html>
