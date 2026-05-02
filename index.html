@@ -344,11 +344,6 @@
     </header>
 
     <section class="content">
-      <div>
-        <label for="apiKey">Clé API Groq</label>
-        <input id="apiKey" type="password" placeholder="gsk_..." autocomplete="off">
-      </div>
-
       <div class="tabs">
         <button class="tab-btn active" id="reformulateTabBtn" data-tab-target="reformulatePanel" type="button">Reformulateur</button>
         <button class="tab-btn" id="mathTabBtn" data-tab-target="mathPanel" type="button">Maths</button>
@@ -398,7 +393,7 @@
         <div>
           <label for="outputText">Résultat</label>
           <div id="outputText" class="output">Le texte reformulé apparaîtra ici.</div>
-          <p class="hint">Ta clé API est utilisée uniquement dans cette page pour appeler Groq.</p>
+          <p class="hint">Les requêtes sont envoyées de façon sécurisée via le serveur.</p>
         </div>
       </section>
 
@@ -452,7 +447,6 @@
   </main>
 
   <script>
-    const apiKeyInput = document.getElementById("apiKey");
     const tabButtons = document.querySelectorAll(".tab-btn");
     const tabPanels = document.querySelectorAll(".tab-panel");
 
@@ -496,6 +490,25 @@
       if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
         await window.MathJax.typesetPromise([mathOutput]);
       }
+    }
+
+    async function callChatApi(payload) {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        const apiMessage = data && data.error && data.error.message
+          ? data.error.message
+          : "Erreur API inconnue.";
+        throw new Error(apiMessage);
+      }
+      return data;
     }
 
     tabButtons.forEach((button) => {
@@ -771,17 +784,9 @@
     mathTargetGrade.addEventListener("input", updateMathGradeDisplay);
 
     reformulateBtn.addEventListener("click", async () => {
-      const apiKey = apiKeyInput.value.trim();
-      const authorizationHeader = `Bearer ${apiKey}`;
       const original = inputText.value.trim();
       const selectedLevel = level.value;
       const noteVisee = Number(targetGrade.value);
-
-      if (!apiKey) {
-        outputText.textContent = "Merci d'entrer ta clé API Groq avant de reformuler.";
-        copyBtn.disabled = true;
-        return;
-      }
 
       if (!original && !reformulateImageDataUrl) {
         outputText.textContent = "Merci de coller un texte ou d'importer une photo avant de cliquer sur Reformuler.";
@@ -812,7 +817,6 @@
       outputText.textContent = "Traitement de la reformulation...";
 
       try {
-        console.log("Authorization header envoyé :", authorizationHeader);
         const userMessage = reformulateImageDataUrl
           ? {
             role: "user",
@@ -836,33 +840,17 @@
             content: original
           };
 
-        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorizationHeader
-          },
-          body: JSON.stringify({
-            model: reformulateImageDataUrl ? visionModel : textModel,
-            temperature: 0.7,
-            messages: [
-              {
-                role: "system",
-                content: systemPrompt
-              },
-              userMessage
-            ]
-          })
+        const data = await callChatApi({
+          model: reformulateImageDataUrl ? visionModel : textModel,
+          temperature: 0.7,
+          messages: [
+            {
+              role: "system",
+              content: systemPrompt
+            },
+            userMessage
+          ]
         });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          const apiMessage = data && data.error && data.error.message
-            ? data.error.message
-            : "Erreur API inconnue.";
-          throw new Error(apiMessage);
-        }
 
         const resultText = data && data.choices && data.choices[0] &&
           data.choices[0].message && typeof data.choices[0].message.content === "string"
@@ -902,16 +890,9 @@
     });
 
     solveBtn.addEventListener("click", async () => {
-      const apiKey = apiKeyInput.value.trim();
-      const authorizationHeader = `Bearer ${apiKey}`;
       const selectedMathLevel = mathLevel.value;
       const mathNoteVisee = Number(mathTargetGrade.value);
       const exercise = mathInput.value.trim();
-
-      if (!apiKey) {
-        mathOutput.textContent = "Merci d'entrer ta clé API Groq avant de résoudre.";
-        return;
-      }
 
       if (!exercise && !mathImageDataUrl) {
         mathOutput.textContent = "Merci d'écrire un exercice ou d'importer une photo avant de cliquer sur Résoudre.";
@@ -970,33 +951,17 @@
             content: exercise
           };
 
-        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authorizationHeader
-          },
-          body: JSON.stringify({
-            model: mathImageDataUrl ? visionModel : textModel,
-            temperature: 0.3,
-            messages: [
-              {
-                role: "system",
-                content: systemPrompt
-              },
-              userMessage
-            ]
-          })
+        const data = await callChatApi({
+          model: mathImageDataUrl ? visionModel : textModel,
+          temperature: 0.3,
+          messages: [
+            {
+              role: "system",
+              content: systemPrompt
+            },
+            userMessage
+          ]
         });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          const apiMessage = data && data.error && data.error.message
-            ? data.error.message
-            : "Erreur API inconnue.";
-          throw new Error(apiMessage);
-        }
 
         const resultText = data && data.choices && data.choices[0] &&
           data.choices[0].message && typeof data.choices[0].message.content === "string"
