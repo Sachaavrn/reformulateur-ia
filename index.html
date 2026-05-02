@@ -255,14 +255,25 @@
     }
 
     #mathOutput {
+      min-height: 200px;
       height: auto;
       max-height: none;
+      overflow: visible;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     #mathOutput mjx-container {
       max-width: 100%;
-      overflow-x: auto;
-      overflow-y: hidden;
+      overflow: visible;
+      white-space: normal;
+    }
+
+    #mathPanel,
+    #mathPanel > div {
+      height: auto;
+      max-height: none;
     }
 
     .hint {
