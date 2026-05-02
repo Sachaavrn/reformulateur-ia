@@ -249,6 +249,20 @@
       white-space: pre-wrap;
       line-height: 1.5;
       color: #2b2450;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      overflow-y: auto;
+    }
+
+    #mathOutput {
+      height: auto;
+      max-height: none;
+    }
+
+    #mathOutput mjx-container {
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
     }
 
     .hint {
@@ -332,6 +346,11 @@
 
       .header h1 {
         font-size: 1.55rem;
+      }
+
+      #mathOutput {
+        font-size: 0.98rem;
+        line-height: 1.55;
       }
     }
   </style>
