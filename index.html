@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ReformIA</title>
   <script>
     window.MathJax = {
@@ -10,16 +10,8 @@
         inlineMath: [["$", "$"], ["\\(", "\\)"]],
         displayMath: [["$$", "$$"], ["\\[", "\\]"]]
       },
-      options: {
-        renderActions: {
-          addMenu: []
-        }
-      },
-      chtml: {
-        scale: 0.9,
-        matchFontHeight: false,
-        mtextInheritFont: true
-      }
+      options: { renderActions: { addMenu: [] } },
+      chtml: { scale: 0.85, matchFontHeight: false }
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -36,18 +28,14 @@
       --radius: 16px;
     }
 
-    * {
-      box-sizing: border-box;
-      max-width: 100%;
-    }
-
-    html {
-      overflow-x: hidden !important;
-      scrollbar-gutter: stable !important;
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
     }
 
     body {
-      margin: 0;
       font-family: "Segoe UI", Roboto, Arial, sans-serif;
       color: var(--text);
       background: linear-gradient(140deg, #ffffff 0%, #f5f1ff 40%, #efe7ff 100%);
@@ -55,21 +43,18 @@
       display: grid;
       place-items: center;
       padding: 24px;
-      overflow-x: hidden !important;
-      width: 100% !important;
-      scrollbar-gutter: stable !important;
+      box-sizing: border-box;
     }
 
     .app {
-      width: 100% !important;
+      width: 100%;
+      max-width: 920px;
       background: var(--white);
       border: 1px solid #ece7ff;
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      overflow: hidden !important;
-      overflow-x: hidden !important;
-      max-width: min(920px, 100%) !important;
-      box-sizing: border-box !important;
+      overflow: hidden;
+      box-sizing: border-box;
     }
 
     .header {
@@ -78,26 +63,15 @@
       padding: 26px 28px;
     }
 
-    .header h1 {
-      margin: 0;
-      font-size: 1.9rem;
-      letter-spacing: 0.3px;
-    }
-
-    .header p {
-      margin: 8px 0 0;
-      opacity: 0.95;
-    }
+    .header h1 { margin: 0; font-size: 1.9rem; }
+    .header p { margin: 8px 0 0; opacity: 0.95; }
 
     .content {
       padding: 24px 28px 28px;
       display: grid;
       gap: 18px;
-      overflow: hidden !important;
-      overflow-x: hidden !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      box-sizing: border-box !important;
+      box-sizing: border-box;
+      width: 100%;
     }
 
     .tabs {
@@ -114,6 +88,8 @@
       background: var(--violet-100);
       color: var(--violet-900);
       font-weight: 600;
+      cursor: pointer;
+      font: inherit;
     }
 
     .tab-btn.active {
@@ -122,14 +98,8 @@
       box-shadow: 0 8px 18px rgba(109, 61, 240, 0.25);
     }
 
-    .tab-panel {
-      display: grid;
-      gap: 18px;
-    }
-
-    .tab-panel[hidden] {
-      display: none;
-    }
+    .tab-panel { display: grid; gap: 18px; }
+    .tab-panel[hidden] { display: none; }
 
     label {
       display: block;
@@ -138,9 +108,7 @@
       color: var(--violet-900);
     }
 
-    textarea,
-    select,
-    input {
+    textarea, select {
       width: 100%;
       border: 1px solid #ddd5ff;
       border-radius: 12px;
@@ -149,6 +117,7 @@
       color: var(--text);
       background: #fcfbff;
       transition: border-color 0.2s, box-shadow 0.2s;
+      box-sizing: border-box;
     }
 
     textarea {
@@ -157,9 +126,7 @@
       line-height: 1.45;
     }
 
-    textarea:focus,
-    select:focus,
-    input:focus {
+    textarea:focus, select:focus {
       outline: none;
       border-color: var(--violet-500);
       box-shadow: 0 0 0 4px rgba(143, 107, 255, 0.15);
@@ -175,17 +142,7 @@
       padding: 0;
       cursor: pointer;
       border: none;
-    }
-
-    input[type="range"]:focus {
-      box-shadow: none;
-      outline: none;
-    }
-
-    input[type="range"]:focus-visible {
-      outline: 2px solid var(--violet-500);
-      outline-offset: 4px;
-      border-radius: 999px;
+      box-sizing: border-box;
     }
 
     input[type="range"]::-webkit-slider-runnable-track {
@@ -197,7 +154,6 @@
 
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      appearance: none;
       width: 22px;
       height: 22px;
       margin-top: -6px;
@@ -211,7 +167,6 @@
       height: 10px;
       border-radius: 999px;
       background: linear-gradient(90deg, var(--violet-100), var(--violet-500));
-      border: 1px solid #ddd5ff;
     }
 
     input[type="range"]::-moz-range-thumb {
@@ -219,7 +174,6 @@
       height: 22px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--violet-900), var(--violet-700));
-      box-shadow: 0 4px 14px rgba(109, 61, 240, 0.35);
       border: 3px solid var(--white);
     }
 
@@ -227,7 +181,6 @@
       margin: 10px 0 0;
       font-weight: 600;
       color: var(--violet-900);
-      font-size: 1rem;
     }
 
     .controls {
@@ -244,12 +197,10 @@
       font: inherit;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.08s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+      transition: transform 0.08s ease, opacity 0.2s ease;
     }
 
-    button:active {
-      transform: translateY(1px);
-    }
+    button:active { transform: translateY(1px); }
 
     .btn-primary {
       background: linear-gradient(120deg, var(--violet-900), var(--violet-700));
@@ -262,143 +213,98 @@
       color: var(--violet-900);
     }
 
-    .btn-secondary:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
+    .btn-secondary:disabled { opacity: 0.55; cursor: not-allowed; }
 
+    /* Zone de résultat */
     .output {
       border: 1px dashed #cbbdff;
       border-radius: 12px;
       background: #faf8ff;
       padding: 14px;
       min-height: 140px;
-      height: auto;
-      max-height: none;
-      overflow: visible;
-      white-space: pre-wrap;
-      line-height: 1.5;
+      line-height: 1.6;
       color: #2b2450;
       word-break: break-word;
       overflow-wrap: break-word;
+      box-sizing: border-box;
       width: 100%;
-      max-width: 100%;
     }
 
     #outputText {
-      min-height: 200px;
-      height: auto;
-      max-height: none;
-      overflow: visible;
       white-space: pre-wrap;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+    }
+
+    /* Zone maths avec scroll horizontal pour les formules larges */
+    .math-output-wrapper {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px dashed #cbbdff;
+      border-radius: 12px;
+      background: #faf8ff;
+      padding: 14px;
+      min-height: 140px;
+      overflow-x: auto;
+      overflow-y: visible;
     }
 
     #mathOutput {
-      min-height: 200px;
-      height: auto;
-      max-height: none;
-      font-size: 0.9rem !important;
-      overflow-x: hidden !important;
-      overflow-y: visible;
-      white-space: normal !important;
-      word-break: break-word !important;
-      overflow-wrap: break-word !important;
-      max-width: 100% !important;
-      width: 100% !important;
-      box-sizing: border-box !important;
-    }
-
-    #mathOutput h3,
-    #mathOutput h4,
-    #mathOutput strong,
-    #mathOutput p,
-    #mathOutput br {
-      white-space: normal !important;
-      word-break: break-word !important;
-      overflow-wrap: break-word !important;
-      max-width: 100% !important;
-      display: block !important;
+      width: 100%;
+      min-width: 0;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.7;
+      color: #2b2450;
     }
 
     #mathOutput h3 {
-      font-size: 1rem !important;
+      font-size: 1.05rem;
+      margin: 16px 0 8px;
+      color: var(--violet-900);
+      word-break: break-word;
     }
 
     #mathOutput h4 {
-      font-size: 0.95rem !important;
+      font-size: 0.95rem;
+      margin: 12px 0 6px;
+      word-break: break-word;
     }
 
-    .MathJax {
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
-      max-width: 100% !important;
+    #mathOutput p {
+      margin: 8px 0;
+      word-break: break-word;
     }
 
-    .MJX-TEX {
-      overflow-x: auto !important;
-      max-width: 100% !important;
+    #mathOutput strong {
+      word-break: break-word;
     }
 
-    mjx-container {
-      overflow-x: auto !important;
-      max-width: 100% !important;
-      display: block !important;
-      margin: 4px 0 !important;
-    }
-
-    mjx-math {
-      max-width: 100% !important;
-    }
-
-    mjx-mrow {
-      max-width: 100% !important;
-    }
-
-    .math-scroll-wrapper {
-      overflow-x: hidden;
-      max-width: 100%;
-      overflow: hidden !important;
-      max-width: 100% !important;
-      box-sizing: border-box !important;
-    }
-
-    /* Conteneur scrollable pour les formules larges */
-    .math-scroll-wrapper mjx-container {
-      display: block;
+    /* MathJax - scroll horizontal sur les formules larges seulement */
+    mjx-container[display="true"] {
       overflow-x: auto;
       overflow-y: hidden;
-      max-width: calc(100vw - 60px) !important;
+      display: block;
+      max-width: 100%;
+      padding-bottom: 4px;
     }
 
-    #mathPanel,
-    #mathPanel > div {
-      height: auto;
-      max-height: none;
+    mjx-container:not([display="true"]) {
+      display: inline-block;
+      max-width: 100%;
     }
 
-    .hint {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin: 0;
-    }
+    .hint { font-size: 0.9rem; color: var(--muted); margin: 0; }
 
-    .image-picker {
-      display: none;
-    }
+    .image-picker { display: none; }
 
     .upload-zone {
-      width: 100% !important;
-      max-width: 100% !important;
-      overflow: hidden !important;
       margin-top: 10px;
       border: 2px dashed #cbbdff;
       border-radius: 12px;
       background: #faf8ff;
       padding: 14px;
-      transition: border-color 0.2s, background-color 0.2s;
-      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+      width: 100%;
     }
 
     .upload-zone.dragover {
@@ -415,26 +321,22 @@
 
     .preview-wrap {
       position: relative;
-      width: 100% !important;
-      max-width: 100% !important;
-      overflow: hidden !important;
+      width: 100%;
+      box-sizing: border-box;
     }
 
-    .preview-wrap[hidden] {
-      display: none;
-    }
+    .preview-wrap[hidden] { display: none; }
 
     .preview-image {
-      display: block !important;
-      width: 100% !important;
-      max-width: 100% !important;
-      height: auto !important;
-      max-height: 260px !important;
-      object-fit: contain !important;
+      display: block;
+      width: 100%;
+      max-height: 260px;
+      object-fit: contain;
       border: 1px dashed #cbbdff;
       border-radius: 12px;
       background: #faf8ff;
       padding: 8px;
+      box-sizing: border-box;
     }
 
     .remove-image-btn {
@@ -451,52 +353,16 @@
       background: rgba(45, 45, 56, 0.72);
       color: var(--white);
       font-size: 16px;
-      line-height: 1;
-      box-shadow: none;
+      cursor: pointer;
+      max-width: 28px;
     }
 
-    .remove-image-btn:hover {
-      background: #d62f45;
-    }
+    .remove-image-btn:hover { background: #d62f45; }
 
     @media (max-width: 640px) {
-      .header,
-      .content {
-        padding: 18px;
-      }
-
-      .header h1 {
-        font-size: 1.55rem;
-      }
-
-      #mathOutput {
-        font-size: 0.98rem;
-        line-height: 1.55;
-      }
-    }
-
-    .app,
-    .content,
-    .tab-panel,
-    .output,
-    #mathOutput,
-    #outputText,
-    .upload-zone,
-    .preview-wrap,
-    .controls {
-      width: 100% !important;
-      max-width: 100% !important;
-      min-width: 0 !important;
-      box-sizing: border-box !important;
-      overflow-x: hidden !important;
-    }
-
-    #mathOutput * {
-      max-width: 100% !important;
-      min-width: 0 !important;
-      box-sizing: border-box !important;
-      word-break: break-word !important;
-      overflow-wrap: break-word !important;
+      .header, .content { padding: 16px; }
+      .header h1 { font-size: 1.4rem; }
+      body { padding: 12px; }
     }
   </style>
 </head>
@@ -504,48 +370,45 @@
   <main class="app">
     <header class="header">
       <h1>ReformIA</h1>
-      <p>Réécris un texte IA avec un style plus naturel selon ton niveau scolaire.</p>
+      <p>Réécris un texte IA avec un style naturel selon ton niveau scolaire.</p>
     </header>
 
     <section class="content">
       <div class="tabs">
-        <button class="tab-btn active" id="reformulateTabBtn" data-tab-target="reformulatePanel" type="button">Reformulateur</button>
-        <button class="tab-btn" id="mathTabBtn" data-tab-target="mathPanel" type="button">Maths</button>
+        <button class="tab-btn active" data-tab-target="reformulatePanel" type="button">Reformulateur</button>
+        <button class="tab-btn" data-tab-target="mathPanel" type="button">Maths</button>
       </div>
 
+      <!-- ONGLET REFORMULATEUR -->
       <section id="reformulatePanel" class="tab-panel">
         <div>
-          <label for="inputText">Texte à reformuler</label>
+          <label>Texte à reformuler</label>
           <textarea id="inputText" placeholder="Colle ici un texte généré par une IA..."></textarea>
-          <div class="controls">
+          <div class="controls" style="margin-top:10px">
             <button class="btn-secondary" id="reformulateImageBtn" type="button">Importer une photo</button>
             <input class="image-picker" id="reformulateImageInput" type="file" accept="image/*">
           </div>
           <div id="reformulateDropZone" class="upload-zone" tabindex="0">
-            <p id="reformulateDropText" class="upload-zone-text">Glisse une photo ici ou colle une image (Ctrl+V)</p>
+            <p id="reformulateDropText" class="upload-zone-text">Glisse une photo ici ou colle (Ctrl+V)</p>
             <div id="reformulatePreviewWrap" class="preview-wrap" hidden>
-              <img id="reformulatePreview" class="preview-image" alt="Aperçu de la photo importée pour reformulation">
-              <button class="remove-image-btn" id="reformulateRemoveImageBtn" type="button" hidden aria-label="Supprimer la photo">✕</button>
+              <img id="reformulatePreview" class="preview-image" alt="Aperçu">
+              <button class="remove-image-btn" id="reformulateRemoveImageBtn" type="button" hidden>✕</button>
             </div>
           </div>
         </div>
 
         <div>
-          <label for="level">Niveau scolaire</label>
+          <label>Niveau scolaire</label>
           <select id="level">
-            <option value="6ème">6ème</option>
-            <option value="5ème">5ème</option>
-            <option value="4ème">4ème</option>
-            <option value="3ème">3ème</option>
-            <option value="2nde">2nde</option>
-            <option value="1ère">1ère</option>
-            <option value="Terminale">Terminale</option>
+            <option>6ème</option><option>5ème</option><option>4ème</option>
+            <option>3ème</option><option>2nde</option><option>1ère</option>
+            <option>Terminale</option>
           </select>
         </div>
 
         <div>
-          <label for="targetGrade">Note visée</label>
-          <input type="range" id="targetGrade" min="0" max="20" step="1" value="14" aria-describedby="gradeDisplay">
+          <label>Note visée</label>
+          <input type="range" id="targetGrade" min="0" max="20" step="1" value="14">
           <p id="gradeDisplay" class="grade-display">Note visée : 14/20</p>
         </div>
 
@@ -555,45 +418,41 @@
         </div>
 
         <div>
-          <label for="outputText">Résultat</label>
+          <label>Résultat</label>
           <div id="outputText" class="output">Le texte reformulé apparaîtra ici.</div>
-          <p class="hint">Les requêtes sont envoyées de façon sécurisée via le serveur.</p>
         </div>
       </section>
 
+      <!-- ONGLET MATHS -->
       <section id="mathPanel" class="tab-panel" hidden>
         <div>
-          <label for="mathLevel">Niveau de maths</label>
+          <label>Niveau de maths</label>
           <select id="mathLevel">
-            <option value="6ème">6ème</option>
-            <option value="5ème">5ème</option>
-            <option value="4ème">4ème</option>
-            <option value="3ème">3ème</option>
-            <option value="2nde">2nde</option>
-            <option value="1ère">1ère</option>
-            <option value="Terminale Spécialité">Terminale Spécialité</option>
-            <option value="Terminale Maths Expertes">Terminale Maths Expertes</option>
+            <option>6ème</option><option>5ème</option><option>4ème</option>
+            <option>3ème</option><option>2nde</option><option>1ère</option>
+            <option>Terminale Spécialité</option>
+            <option>Terminale Maths Expertes</option>
           </select>
         </div>
 
         <div>
-          <label for="mathTargetGrade">Note visée</label>
-          <input type="range" id="mathTargetGrade" min="0" max="20" step="1" value="14" aria-describedby="mathGradeDisplay">
+          <label>Note visée</label>
+          <input type="range" id="mathTargetGrade" min="0" max="20" step="1" value="14">
           <p id="mathGradeDisplay" class="grade-display">Note visée : 14/20</p>
         </div>
 
         <div>
-          <label for="mathInput">Exercice</label>
+          <label>Exercice</label>
           <textarea id="mathInput" placeholder="Colle ou écris ici ton exercice de maths..."></textarea>
-          <div class="controls">
+          <div class="controls" style="margin-top:10px">
             <button class="btn-secondary" id="mathImageBtn" type="button">Importer une photo</button>
             <input class="image-picker" id="mathImageInput" type="file" accept="image/*">
           </div>
           <div id="mathDropZone" class="upload-zone" tabindex="0">
-            <p id="mathDropText" class="upload-zone-text">Glisse une photo ici ou colle une image (Ctrl+V)</p>
+            <p id="mathDropText" class="upload-zone-text">Glisse une photo ici ou colle (Ctrl+V)</p>
             <div id="mathPreviewWrap" class="preview-wrap" hidden>
-              <img id="mathPreview" class="preview-image" alt="Aperçu de la photo importée pour exercice de maths">
-              <button class="remove-image-btn" id="mathRemoveImageBtn" type="button" hidden aria-label="Supprimer la photo">✕</button>
+              <img id="mathPreview" class="preview-image" alt="Aperçu exercice">
+              <button class="remove-image-btn" id="mathRemoveImageBtn" type="button" hidden>✕</button>
             </div>
           </div>
         </div>
@@ -604,9 +463,9 @@
         </div>
 
         <div>
-          <label for="mathOutput">Correction</label>
-          <div class="math-scroll-wrapper">
-            <div id="mathOutput" class="output">La correction apparaîtra ici.</div>
+          <label>Correction</label>
+          <div class="math-output-wrapper">
+            <div id="mathOutput">La correction apparaîtra ici.</div>
           </div>
         </div>
       </section>
@@ -614,438 +473,217 @@
   </main>
 
   <script>
-    const tabButtons = document.querySelectorAll(".tab-btn");
-    const tabPanels = document.querySelectorAll(".tab-panel");
-
-    const reformulateBtn = document.getElementById("reformulateBtn");
-    const copyBtn = document.getElementById("copyBtn");
-    const inputText = document.getElementById("inputText");
-    const reformulateImageBtn = document.getElementById("reformulateImageBtn");
-    const reformulateImageInput = document.getElementById("reformulateImageInput");
-    const reformulateDropZone = document.getElementById("reformulateDropZone");
-    const reformulateDropText = document.getElementById("reformulateDropText");
-    const reformulatePreviewWrap = document.getElementById("reformulatePreviewWrap");
-    const reformulatePreview = document.getElementById("reformulatePreview");
-    const reformulateRemoveImageBtn = document.getElementById("reformulateRemoveImageBtn");
-    const level = document.getElementById("level");
-    const targetGrade = document.getElementById("targetGrade");
-    const gradeDisplay = document.getElementById("gradeDisplay");
-    const outputText = document.getElementById("outputText");
-    const solveBtn = document.getElementById("solveBtn");
-    const mathLevel = document.getElementById("mathLevel");
-    const mathTargetGrade = document.getElementById("mathTargetGrade");
-    const mathGradeDisplay = document.getElementById("mathGradeDisplay");
-    const mathInput = document.getElementById("mathInput");
-    const mathImageBtn = document.getElementById("mathImageBtn");
-    const mathImageInput = document.getElementById("mathImageInput");
-    const mathDropZone = document.getElementById("mathDropZone");
-    const mathDropText = document.getElementById("mathDropText");
-    const mathPreviewWrap = document.getElementById("mathPreviewWrap");
-    const mathPreview = document.getElementById("mathPreview");
-    const mathRemoveImageBtn = document.getElementById("mathRemoveImageBtn");
-    const mathCopyBtn = document.getElementById("mathCopyBtn");
-    const mathOutput = document.getElementById("mathOutput");
-    const defaultButtonText = "Reformuler";
-    const loadingButtonText = "Reformulation en cours...";
-    const defaultSolveButtonText = "Résoudre";
-    const loadingSolveButtonText = "Résolution en cours...";
-    const defaultMathCopyButtonText = "Copier la correction";
-    const textModel = "llama-3.3-70b-versatile";
-    const visionModel = "meta-llama/llama-4-scout-17b-16e-instruct";
-    let reformulateImageDataUrl = "";
-    let mathImageDataUrl = "";
-    let persistedMathImageDataUrl = "";
-
-    async function renderMathJax() {
-      if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
-        await window.MathJax.typesetPromise([mathOutput]);
-      }
-    }
-
-    async function callChatApi(payload) {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        const apiMessage = data && data.error && data.error.message
-          ? data.error.message
-          : "Erreur API inconnue.";
-        throw new Error(apiMessage);
-      }
-      return data;
-    }
-
-    tabButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const targetId = button.dataset.tabTarget;
-
-        tabButtons.forEach((tabButton) => {
-          tabButton.classList.remove("active");
-        });
-        button.classList.add("active");
-
-        tabPanels.forEach((panel) => {
-          panel.hidden = panel.id !== targetId;
+    // ---- ONGLETS ----
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        document.querySelectorAll(".tab-panel").forEach(p => {
+          p.hidden = p.id !== btn.dataset.tabTarget;
         });
       });
     });
 
-    function updateGradeDisplay() {
-      gradeDisplay.textContent =
-        `Note visée : ${targetGrade.value}/20`;
+    // ---- CURSEURS ----
+    const targetGrade = document.getElementById("targetGrade");
+    const gradeDisplay = document.getElementById("gradeDisplay");
+    const mathTargetGrade = document.getElementById("mathTargetGrade");
+    const mathGradeDisplay = document.getElementById("mathGradeDisplay");
+
+    targetGrade.addEventListener("input", () => {
+      gradeDisplay.textContent = `Note visée : ${targetGrade.value}/20`;
+    });
+    mathTargetGrade.addEventListener("input", () => {
+      mathGradeDisplay.textContent = `Note visée : ${mathTargetGrade.value}/20`;
+    });
+
+    // ---- API ----
+    async function callChatApi(payload) {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error?.message || "Erreur API");
+      return data;
     }
 
-    function updateMathGradeDisplay() {
-      mathGradeDisplay.textContent =
-        `Note visée : ${mathTargetGrade.value}/20`;
-    }
+    // ---- IMAGES ----
+    let reformulateImageDataUrl = "";
+    let persistedMathImageDataUrl = "";
 
-    function readFileAsDataUrl(file) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error("Impossible de lire l'image sélectionnée."));
-        reader.readAsDataURL(file);
+    function readFile(file) {
+      return new Promise((res, rej) => {
+        const r = new FileReader();
+        r.onload = () => res(r.result);
+        r.onerror = () => rej(new Error("Impossible de lire l'image."));
+        r.readAsDataURL(file);
       });
     }
 
-    async function loadImageFromInput(file, outputElement, previewWrap, previewImage, removeButton, dropText) {
-      if (!file) {
-        return "";
-      }
-      if (!file.type || !file.type.startsWith("image/")) {
-        throw new Error("Le fichier importé doit être une image.");
-      }
-
-      const dataUrl = await readFileAsDataUrl(file);
-      previewImage.src = dataUrl;
+    async function applyImage(file, previewImg, previewWrap, removeBtn, dropText, outputEl) {
+      if (!file || !file.type.startsWith("image/")) throw new Error("Fichier invalide.");
+      const url = await readFile(file);
+      previewImg.src = url;
       previewWrap.hidden = false;
-      removeButton.hidden = false;
+      removeBtn.hidden = false;
       dropText.hidden = true;
-      outputElement.textContent = "Photo importée. Tu peux lancer la requête.";
-      return dataUrl;
+      if (outputEl) outputEl.textContent = "Photo importée. Lance la requête.";
+      return url;
     }
 
-    function clearImageSelection(imageInput, previewWrap, previewImage, removeButton, dropText) {
-      imageInput.value = "";
-      previewImage.removeAttribute("src");
+    function clearImage(input, previewImg, previewWrap, removeBtn, dropText) {
+      input.value = "";
+      previewImg.removeAttribute("src");
       previewWrap.hidden = true;
-      removeButton.hidden = true;
+      removeBtn.hidden = true;
       dropText.hidden = false;
     }
 
-    function extractImageFileFromClipboard(event) {
-      const items = event.clipboardData && event.clipboardData.items
-        ? event.clipboardData.items
-        : [];
-      for (const item of items) {
-        if (item.type && item.type.startsWith("image/")) {
-          return item.getAsFile();
-        }
+    function getImageFromClipboard(e) {
+      for (const item of (e.clipboardData?.items || [])) {
+        if (item.type.startsWith("image/")) return item.getAsFile();
       }
       return null;
     }
 
-    function setupImageDropAndPaste({
-      dropZone,
-      imageInput,
-      outputElement,
-      previewWrap,
-      previewImage,
-      removeButton,
-      dropText,
-      setDataUrl,
-      onSuccess
-    }) {
-      async function applyImageFile(file) {
-        const dataUrl = await loadImageFromInput(
-          file,
-          outputElement,
-          previewWrap,
-          previewImage,
-          removeButton,
-          dropText
-        );
-        setDataUrl(dataUrl);
-        if (onSuccess) {
-          onSuccess();
-        }
-      }
-
-      imageInput.addEventListener("change", async () => {
+    function setupDrop({ zone, input, previewImg, previewWrap, removeBtn, dropText, outputEl, onLoad }) {
+      input.addEventListener("change", async () => {
         try {
-          await applyImageFile(imageInput.files[0]);
-        } catch (error) {
-          setDataUrl("");
-          clearImageSelection(imageInput, previewWrap, previewImage, removeButton, dropText);
-          outputElement.textContent = error.message;
-        }
+          const url = await applyImage(input.files[0], previewImg, previewWrap, removeBtn, dropText, outputEl);
+          onLoad(url);
+        } catch (e) { if (outputEl) outputEl.textContent = e.message; }
       });
 
-      dropZone.addEventListener("dragover", (event) => {
-        event.preventDefault();
-        dropZone.classList.add("dragover");
+      zone.addEventListener("dragover", e => { e.preventDefault(); zone.classList.add("dragover"); });
+      zone.addEventListener("dragleave", () => zone.classList.remove("dragover"));
+      zone.addEventListener("drop", async e => {
+        e.preventDefault(); zone.classList.remove("dragover");
+        const f = Array.from(e.dataTransfer?.files || []).find(f => f.type.startsWith("image/"));
+        if (!f) return;
+        try { const url = await applyImage(f, previewImg, previewWrap, removeBtn, dropText, outputEl); onLoad(url); }
+        catch (e) { if (outputEl) outputEl.textContent = e.message; }
       });
 
-      dropZone.addEventListener("dragleave", () => {
-        dropZone.classList.remove("dragover");
-      });
-
-      dropZone.addEventListener("drop", async (event) => {
-        event.preventDefault();
-        dropZone.classList.remove("dragover");
-        const files = event.dataTransfer && event.dataTransfer.files
-          ? Array.from(event.dataTransfer.files)
-          : [];
-        const imageFile = files.find((file) => file.type && file.type.startsWith("image/"));
-        if (!imageFile) {
-          outputElement.textContent = "Dépose une image valide (PNG, JPG, etc.).";
-          return;
-        }
-        try {
-          await applyImageFile(imageFile);
-        } catch (error) {
-          setDataUrl("");
-          clearImageSelection(imageInput, previewWrap, previewImage, removeButton, dropText);
-          outputElement.textContent = error.message;
-        }
-      });
-
-      dropZone.addEventListener("paste", async (event) => {
-        const imageFile = extractImageFileFromClipboard(event);
-        if (!imageFile) {
-          return;
-        }
-        event.preventDefault();
-        try {
-          await applyImageFile(imageFile);
-        } catch (error) {
-          setDataUrl("");
-          clearImageSelection(imageInput, previewWrap, previewImage, removeButton, dropText);
-          outputElement.textContent = error.message;
-        }
+      zone.addEventListener("paste", async e => {
+        const f = getImageFromClipboard(e);
+        if (!f) return;
+        e.preventDefault();
+        try { const url = await applyImage(f, previewImg, previewWrap, removeBtn, dropText, outputEl); onLoad(url); }
+        catch (e) { if (outputEl) outputEl.textContent = e.message; }
       });
     }
 
-    reformulateImageBtn.addEventListener("click", () => {
-      reformulateImageInput.click();
-    });
+    // Setup reformulateur
+    const rImgBtn = document.getElementById("reformulateImageBtn");
+    const rImgInput = document.getElementById("reformulateImageInput");
+    const rDropZone = document.getElementById("reformulateDropZone");
+    const rDropText = document.getElementById("reformulateDropText");
+    const rPreviewWrap = document.getElementById("reformulatePreviewWrap");
+    const rPreview = document.getElementById("reformulatePreview");
+    const rRemoveBtn = document.getElementById("reformulateRemoveImageBtn");
+    const outputText = document.getElementById("outputText");
+    const copyBtn = document.getElementById("copyBtn");
 
-    setupImageDropAndPaste({
-      dropZone: reformulateDropZone,
-      imageInput: reformulateImageInput,
-      outputElement: outputText,
-      previewWrap: reformulatePreviewWrap,
-      previewImage: reformulatePreview,
-      removeButton: reformulateRemoveImageBtn,
-      dropText: reformulateDropText,
-      setDataUrl: (dataUrl) => {
-        reformulateImageDataUrl = dataUrl;
-      },
-      onSuccess: () => {
-        copyBtn.disabled = true;
-      }
+    rImgBtn.addEventListener("click", () => rImgInput.click());
+    setupDrop({
+      zone: rDropZone, input: rImgInput, previewImg: rPreview,
+      previewWrap: rPreviewWrap, removeBtn: rRemoveBtn, dropText: rDropText,
+      outputEl: outputText, onLoad: url => { reformulateImageDataUrl = url; copyBtn.disabled = true; }
     });
-
-    reformulateRemoveImageBtn.addEventListener("click", () => {
+    rRemoveBtn.addEventListener("click", () => {
       reformulateImageDataUrl = "";
-      clearImageSelection(
-        reformulateImageInput,
-        reformulatePreviewWrap,
-        reformulatePreview,
-        reformulateRemoveImageBtn,
-        reformulateDropText
-      );
+      clearImage(rImgInput, rPreview, rPreviewWrap, rRemoveBtn, rDropText);
       outputText.textContent = "Photo supprimée.";
       copyBtn.disabled = true;
     });
 
-    mathImageBtn.addEventListener("click", () => {
-      mathImageInput.click();
+    // Setup maths
+    const mImgBtn = document.getElementById("mathImageBtn");
+    const mImgInput = document.getElementById("mathImageInput");
+    const mDropZone = document.getElementById("mathDropZone");
+    const mDropText = document.getElementById("mathDropText");
+    const mPreviewWrap = document.getElementById("mathPreviewWrap");
+    const mPreview = document.getElementById("mathPreview");
+    const mRemoveBtn = document.getElementById("mathRemoveImageBtn");
+    const mathOutput = document.getElementById("mathOutput");
+    const mathCopyBtn = document.getElementById("mathCopyBtn");
+
+    mImgBtn.addEventListener("click", () => mImgInput.click());
+    setupDrop({
+      zone: mDropZone, input: mImgInput, previewImg: mPreview,
+      previewWrap: mPreviewWrap, removeBtn: mRemoveBtn, dropText: mDropText,
+      outputEl: mathOutput, onLoad: url => { persistedMathImageDataUrl = url; }
     });
-
-    setupImageDropAndPaste({
-      dropZone: mathDropZone,
-      imageInput: mathImageInput,
-      outputElement: mathOutput,
-      previewWrap: mathPreviewWrap,
-      previewImage: mathPreview,
-      removeButton: mathRemoveImageBtn,
-      dropText: mathDropText,
-      setDataUrl: (dataUrl) => {
-        mathImageDataUrl = dataUrl;
-        persistedMathImageDataUrl = dataUrl;
-      }
-    });
-
-    document.addEventListener("paste", async (event) => {
-      const imageFile = extractImageFileFromClipboard(event);
-      if (!imageFile) {
-        return;
-      }
-
-      event.preventDefault();
-      const isMathTabActive = !document.getElementById("mathPanel").hidden;
-
-      try {
-        if (isMathTabActive) {
-          mathImageDataUrl = await loadImageFromInput(
-            imageFile,
-            mathOutput,
-            mathPreviewWrap,
-            mathPreview,
-            mathRemoveImageBtn,
-            mathDropText
-          );
-          persistedMathImageDataUrl = mathImageDataUrl;
-        } else {
-          reformulateImageDataUrl = await loadImageFromInput(
-            imageFile,
-            outputText,
-            reformulatePreviewWrap,
-            reformulatePreview,
-            reformulateRemoveImageBtn,
-            reformulateDropText
-          );
-          copyBtn.disabled = true;
-        }
-      } catch (error) {
-        if (isMathTabActive) {
-          mathImageDataUrl = "";
-          persistedMathImageDataUrl = "";
-          clearImageSelection(
-            mathImageInput,
-            mathPreviewWrap,
-            mathPreview,
-            mathRemoveImageBtn,
-            mathDropText
-          );
-          mathOutput.textContent = error.message;
-        } else {
-          reformulateImageDataUrl = "";
-          clearImageSelection(
-            reformulateImageInput,
-            reformulatePreviewWrap,
-            reformulatePreview,
-            reformulateRemoveImageBtn,
-            reformulateDropText
-          );
-          outputText.textContent = error.message;
-        }
-      }
-    });
-
-    mathRemoveImageBtn.addEventListener("click", () => {
-      mathImageDataUrl = "";
+    mRemoveBtn.addEventListener("click", () => {
       persistedMathImageDataUrl = "";
-      clearImageSelection(
-        mathImageInput,
-        mathPreviewWrap,
-        mathPreview,
-        mathRemoveImageBtn,
-        mathDropText
-      );
+      clearImage(mImgInput, mPreview, mPreviewWrap, mRemoveBtn, mDropText);
       mathOutput.textContent = "Photo supprimée.";
       mathCopyBtn.disabled = true;
     });
 
-    targetGrade.addEventListener("input", updateGradeDisplay);
-    mathTargetGrade.addEventListener("input", updateMathGradeDisplay);
+    // Ctrl+V global
+    document.addEventListener("paste", async e => {
+      const f = getImageFromClipboard(e);
+      if (!f) return;
+      e.preventDefault();
+      const isMath = !document.getElementById("mathPanel").hidden;
+      try {
+        if (isMath) {
+          persistedMathImageDataUrl = await applyImage(f, mPreview, mPreviewWrap, mRemoveBtn, mDropText, mathOutput);
+        } else {
+          reformulateImageDataUrl = await applyImage(f, rPreview, rPreviewWrap, rRemoveBtn, rDropText, outputText);
+          copyBtn.disabled = true;
+        }
+      } catch (e) { console.error(e); }
+    });
+
+    // ---- REFORMULER ----
+    const reformulateBtn = document.getElementById("reformulateBtn");
+    const level = document.getElementById("level");
 
     reformulateBtn.addEventListener("click", async () => {
-      const original = inputText.value.trim();
-      const selectedLevel = level.value;
-      const noteVisee = Number(targetGrade.value);
+      const text = document.getElementById("inputText").value.trim();
+      const lvl = level.value;
+      const note = Number(targetGrade.value);
 
-      if (!original && !reformulateImageDataUrl) {
-        outputText.textContent = "Merci de coller un texte ou d'importer une photo avant de cliquer sur Reformuler.";
-        copyBtn.disabled = true;
+      if (!text && !reformulateImageDataUrl) {
+        outputText.textContent = "Colle un texte ou importe une photo avant de reformuler.";
         return;
       }
 
-      const systemPrompt =
-        `Tu es un assistant qui réécrit des textes générés par une IA pour qu'ils ` +
-        `semblent écrits naturellement par un élève français de niveau ${selectedLevel}. ` +
-        `Adapte le vocabulaire, la syntaxe et le style à ce niveau scolaire. ` +
-        `Le texte doit sembler authentique, pas parfait, naturel.` +
-        `\n\nRéférence de qualité (note sur 20 comme sur une copie) :\n` +
-        `- Note 17-20 : texte quasi parfait, vocabulaire riche, aucune faute\n` +
-        `- Note 13-16 : quelques maladresses, style correct, 1 ou 2 petites fautes\n` +
-        `- Note 10-12 : fautes légères, formulations moyennes, répétitions\n` +
-        `- Note 6-9 : fautes visibles, argumentation faible, style pauvre\n` +
-        `- Note 0-5 : nombreuses fautes, hors sujet partiel, style très faible\n\n` +
-        `Pour cette reformulation, vise précisément la note ${noteVisee}/20 : calibre ` +
-        `le texte final (erreurs orthographiques/grammaticales, richesse lexicale, ` +
-        `fluide mais imparfait le cas échéant, niveau d'argumentation, répétitions) ` +
-        `pour correspondre à ce barème sans mentionner la note ni les consignes. ` +
-        `Réponds uniquement avec le texte reformulé, rien d'autre.`;
-
       reformulateBtn.disabled = true;
-      reformulateBtn.textContent = loadingButtonText;
+      reformulateBtn.textContent = "Reformulation en cours...";
       copyBtn.disabled = true;
-      outputText.textContent = "Traitement de la reformulation...";
+      outputText.textContent = "En cours...";
+
+      const systemPrompt = `Tu es un assistant qui réécrit des textes générés par une IA pour qu'ils semblent écrits naturellement par un élève français de niveau ${lvl}. Adapte le vocabulaire, la syntaxe et le style. Le texte doit sembler authentique.\n\nNote visée ${note}/20 :\n- 17-20 : quasi parfait, vocabulaire riche\n- 13-16 : quelques maladresses, 1-2 fautes\n- 10-12 : fautes légères, répétitions\n- 6-9 : fautes visibles, style pauvre\n- 0-5 : nombreuses fautes, hors sujet partiel\n\nRéponds UNIQUEMENT avec le texte reformulé.`;
 
       try {
-        const userMessage = reformulateImageDataUrl
-          ? {
-            role: "user",
-            content: [
-              {
-                type: "text",
-                text: original
-                  ? `Lis le texte présent dans cette image puis applique exactement les consignes de reformulation du prompt système. Contexte saisi par l'utilisateur : ${original}`
-                  : "Lis le texte présent dans cette image puis applique exactement les consignes de reformulation du prompt système."
-              },
-              {
-                type: "image_url",
-                image_url: {
-                  url: reformulateImageDataUrl
-                }
-              }
-            ]
-          }
-          : {
-            role: "user",
-            content: original
-          };
+        const userMsg = reformulateImageDataUrl
+          ? { role: "user", content: [
+              { type: "text", text: text || "Reformule le texte de cette image." },
+              { type: "image_url", image_url: { url: reformulateImageDataUrl } }
+            ]}
+          : { role: "user", content: text };
 
         const data = await callChatApi({
-          model: reformulateImageDataUrl ? visionModel : textModel,
+          model: reformulateImageDataUrl ? "meta-llama/llama-4-scout-17b-16e-instruct" : "llama-3.3-70b-versatile",
           temperature: 0.7,
-          messages: [
-            {
-              role: "system",
-              content: systemPrompt
-            },
-            userMessage
-          ]
+          messages: [{ role: "system", content: systemPrompt }, userMsg]
         });
 
-        const resultText = data && data.choices && data.choices[0] &&
-          data.choices[0].message && typeof data.choices[0].message.content === "string"
-          ? data.choices[0].message.content.trim()
-          : "";
-
-        if (!resultText) {
-          throw new Error("Aucun texte reformulé n'a été renvoyé par Groq.");
-        }
-
-        outputText.textContent = resultText;
+        const result = data?.choices?.[0]?.message?.content?.trim() || "";
+        if (!result) throw new Error("Réponse vide.");
+        outputText.textContent = result;
         copyBtn.disabled = false;
-      } catch (error) {
-        outputText.textContent =
-          `Impossible de reformuler le texte : ${error.message}\n` +
-          "Vérifie ta clé API, ta connexion internet et réessaie.";
+      } catch (e) {
+        outputText.textContent = `Erreur : ${e.message}`;
         copyBtn.disabled = true;
       } finally {
         reformulateBtn.disabled = false;
-        reformulateBtn.textContent = defaultButtonText;
+        reformulateBtn.textContent = "Reformuler";
       }
     });
 
@@ -1053,14 +691,80 @@
       try {
         await navigator.clipboard.writeText(outputText.textContent);
         copyBtn.textContent = "Copié !";
-        setTimeout(() => {
-          copyBtn.textContent = "Copier le résultat";
-        }, 1400);
-      } catch (error) {
-        copyBtn.textContent = "Impossible de copier";
-        setTimeout(() => {
-          copyBtn.textContent = "Copier le résultat";
-        }, 1400);
+        setTimeout(() => copyBtn.textContent = "Copier le résultat", 1400);
+      } catch { copyBtn.textContent = "Erreur"; setTimeout(() => copyBtn.textContent = "Copier le résultat", 1400); }
+    });
+
+    // ---- MATHS ----
+    const solveBtn = document.getElementById("solveBtn");
+    const mathLevel = document.getElementById("mathLevel");
+
+    async function renderMathJax() {
+      if (window.MathJax?.typesetPromise) await window.MathJax.typesetPromise([mathOutput]);
+    }
+
+    function markdownToHtml(text) {
+      return text
+        .replace(/^### (.+)$/gm, "<h4>$1</h4>")
+        .replace(/^## (.+)$/gm, "<h3>$1</h3>")
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\n{2,}/g, "</p><p>")
+        .replace(/\n/g, "<br>")
+        .replace(/^/, "<p>").replace(/$/, "</p>");
+    }
+
+    solveBtn.addEventListener("click", async () => {
+      const exercise = document.getElementById("mathInput").value.trim();
+      const lvl = mathLevel.value;
+      const note = Number(mathTargetGrade.value);
+
+      if (!exercise && !persistedMathImageDataUrl) {
+        mathOutput.textContent = "Écris un exercice ou importe une photo.";
+        return;
+      }
+
+      solveBtn.disabled = true;
+      solveBtn.textContent = "Résolution en cours...";
+      mathCopyBtn.disabled = true;
+      mathOutput.textContent = "En cours...";
+
+      const systemPrompt = `Tu es un professeur de maths français. L'élève est en ${lvl}.\n\nRÈGLE 1 : Si l'exercice contient des notions absentes du programme de ${lvl}, réponds UNIQUEMENT :\n"❌ Cet exercice ne correspond pas au niveau ${lvl}.\nNotions hors programme : [liste].\nChange le niveau ou l'exercice."\n\nRÈGLE 2 : Si le niveau est correct, réponds question par question dans l'ordre de l'exercice. N'invente pas d'étapes supplémentaires. Indique le numéro de chaque question (1. / 2.a. / etc.) puis donne la réponse. Présentation comme sur une copie d'élève français.\n\nNote visée ${note}/20 :\n- 17-20 : correction parfaite\n- 13-16 : quelques erreurs légères\n- 10-12 : erreurs visibles, raisonnement incomplet\n- 6-9 : erreurs fréquentes, confus\n- 0-5 : nombreuses erreurs\n\nN'écris pas la note dans ta réponse.`;
+
+      try {
+        const userMsg = persistedMathImageDataUrl
+          ? { role: "user", content: [
+              { type: "text", text: exercise || "Résous l'exercice de cette image." },
+              { type: "image_url", image_url: { url: persistedMathImageDataUrl } }
+            ]}
+          : { role: "user", content: exercise };
+
+        const data = await callChatApi({
+          model: persistedMathImageDataUrl ? "meta-llama/llama-4-scout-17b-16e-instruct" : "llama-3.3-70b-versatile",
+          temperature: 0.3,
+          messages: [{ role: "system", content: systemPrompt }, userMsg]
+        });
+
+        const result = data?.choices?.[0]?.message?.content?.trim() || "";
+        if (!result) throw new Error("Réponse vide.");
+
+        mathOutput.innerHTML = markdownToHtml(result);
+
+        // Restaurer la photo
+        if (persistedMathImageDataUrl) {
+          mPreview.src = persistedMathImageDataUrl;
+          mPreviewWrap.hidden = false;
+          mRemoveBtn.hidden = false;
+          mDropText.hidden = true;
+        }
+
+        await renderMathJax();
+        mathCopyBtn.disabled = false;
+      } catch (e) {
+        mathOutput.textContent = `Erreur : ${e.message}`;
+        mathCopyBtn.disabled = true;
+      } finally {
+        solveBtn.disabled = false;
+        solveBtn.textContent = "Résoudre";
       }
     });
 
@@ -1068,129 +772,8 @@
       try {
         await navigator.clipboard.writeText(mathOutput.textContent);
         mathCopyBtn.textContent = "Copié !";
-        setTimeout(() => {
-          mathCopyBtn.textContent = defaultMathCopyButtonText;
-        }, 1400);
-      } catch (error) {
-        mathCopyBtn.textContent = "Impossible de copier";
-        setTimeout(() => {
-          mathCopyBtn.textContent = defaultMathCopyButtonText;
-        }, 1400);
-      }
-    });
-
-    solveBtn.addEventListener("click", async () => {
-      const selectedMathLevel = mathLevel.value;
-      const mathNoteVisee = Number(mathTargetGrade.value);
-      const exercise = mathInput.value.trim();
-
-      if (!exercise && !persistedMathImageDataUrl) {
-        mathOutput.textContent = "Merci d'écrire un exercice ou d'importer une photo avant de cliquer sur Résoudre.";
-        return;
-      }
-
-      const systemPrompt =
-        `Tu es un professeur de maths français. L'élève est en ${selectedMathLevel}. ` +
-        `Utilise UNIQUEMENT les notions du programme de ce niveau. ` +
-        `Si l'exercice utilise des notions hors programme, signale le.` +
-        `\n\nRÈGLE STRICTE PRIORITAIRE : AVANT de résoudre, vérifie si l'exercice correspond au niveau ${selectedMathLevel}. ` +
-        `Si l'exercice contient des notions absentes du programme de ce niveau, affiche UNIQUEMENT ce message, ` +
-        `et ne résous pas l'exercice :` +
-        `\n"❌ Cet exercice ne correspond pas au niveau ${selectedMathLevel} choisi.` +
-        `\nLes notions suivantes ne sont pas au programme : [liste les notions].` +
-        `\nChange le niveau ou importe un exercice adapté."` +
-        `\nN'ajoute aucune autre phrase avant ou après ce message dans ce cas.` +
-        `\n\nSi le niveau est correct, réponds question par question dans l'ordre exact de l'exercice. ` +
-        `N'invente pas d'étapes supplémentaires. ` +
-        `Pour chaque question, indique juste le numéro (ex: 1. ou 2.a. ou 2.b.) puis donne la réponse. ` +
-        `Utilise uniquement les méthodes du programme officiel français de ${selectedMathLevel}. ` +
-        `La présentation doit être exactement comme sur une copie d'élève français, pas comme un cours.` +
-        ` Si tu utilises des titres d'étapes, qu'ils soient très courts : maximum 4 mots sans description dans le titre (exemple : "Étape 1").` +
-        `\n\nRéférence de qualité (note sur 20 comme sur une copie) :\n` +
-        `- Note 17-20 : correction parfaite, raisonnement rigoureux, présentation impeccable\n` +
-        `- Note 13-16 : quelques erreurs de calcul légères, présentation correcte\n` +
-        `- Note 10-12 : erreurs de calcul visibles, raisonnement incomplet par endroits\n` +
-        `- Note 6-9 : erreurs fréquentes, raisonnement confus, présentation désorganisée\n` +
-        `- Note 0-5 : nombreuses erreurs, raisonnement incorrect, hors sujet partiel\n\n` +
-        `Pour cette correction, vise précisément la note ${mathNoteVisee}/20 : introduis volontairement des erreurs ` +
-        `cohérentes avec le niveau ${selectedMathLevel} et la note demandée (une note identique ne produit pas les mêmes ` +
-        `erreurs selon le niveau), puis adapte la rigueur du raisonnement, la justesse des calculs, la clarté de la méthode et la qualité de présentation pour correspondre au barème, ` +
-        `sans mentionner la note ni ces consignes dans la réponse finale.`;
-
-      solveBtn.disabled = true;
-      solveBtn.textContent = loadingSolveButtonText;
-      mathCopyBtn.disabled = true;
-      mathOutput.textContent = "Traitement de la correction...";
-
-      try {
-        const userMessage = persistedMathImageDataUrl
-          ? {
-            role: "user",
-            content: [
-              {
-                type: "text",
-                text: exercise
-                  ? `Lis l'exercice présent dans cette image puis résous-le en respectant exactement les consignes du prompt système. Contexte saisi par l'utilisateur : ${exercise}`
-                  : "Lis l'exercice présent dans cette image puis résous-le en respectant exactement les consignes du prompt système."
-              },
-              {
-                type: "image_url",
-                image_url: {
-                  url: persistedMathImageDataUrl
-                }
-              }
-            ]
-          }
-          : {
-            role: "user",
-            content: exercise
-          };
-
-        const data = await callChatApi({
-          model: persistedMathImageDataUrl ? visionModel : textModel,
-          temperature: 0.3,
-          messages: [
-            {
-              role: "system",
-              content: systemPrompt
-            },
-            userMessage
-          ]
-        });
-
-        const resultText = data && data.choices && data.choices[0] &&
-          data.choices[0].message && typeof data.choices[0].message.content === "string"
-          ? data.choices[0].message.content.trim()
-          : "";
-
-        if (!resultText) {
-          throw new Error("Aucune correction n'a été renvoyée par Groq.");
-        }
-
-        mathOutput.innerHTML = resultText
-          .replace(/^###\s(.+)$/gm, "<h4>$1</h4>")
-          .replace(/^##\s(.+)$/gm, "<h3>$1</h3>")
-          .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-          .replace(/\n/g, "<br>")
-          .replace(/##\s/g, "<strong>")
-          .replace(/###\s/g, "<strong>");
-        if (persistedMathImageDataUrl) {
-          mathPreview.src = persistedMathImageDataUrl;
-          mathPreviewWrap.hidden = false;
-          mathRemoveImageBtn.hidden = false;
-          mathDropText.hidden = true;
-        }
-        await renderMathJax();
-        mathCopyBtn.disabled = false;
-      } catch (error) {
-        mathOutput.textContent =
-          `Impossible de résoudre l'exercice : ${error.message}\n` +
-          "Vérifie ta clé API, ta connexion internet et réessaie.";
-        mathCopyBtn.disabled = true;
-      } finally {
-        solveBtn.disabled = false;
-        solveBtn.textContent = defaultSolveButtonText;
-      }
+        setTimeout(() => mathCopyBtn.textContent = "Copier la correction", 1400);
+      } catch { mathCopyBtn.textContent = "Erreur"; setTimeout(() => mathCopyBtn.textContent = "Copier la correction", 1400); }
     });
   </script>
 </body>
