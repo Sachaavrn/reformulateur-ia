@@ -296,22 +296,24 @@
       width: 100% !important;
     }
 
-    #mathOutput h3 {
-      font-size: 1rem !important;
+    #mathOutput h3,
+    #mathOutput h4,
+    #mathOutput strong,
+    #mathOutput p,
+    #mathOutput br {
+      white-space: normal !important;
       word-break: break-word !important;
       overflow-wrap: break-word !important;
-      white-space: normal !important;
+      max-width: 100% !important;
+      display: block !important;
+    }
+
+    #mathOutput h3 {
+      font-size: 1rem !important;
     }
 
     #mathOutput h4 {
       font-size: 0.95rem !important;
-      word-break: break-word !important;
-      white-space: normal !important;
-    }
-
-    #mathOutput strong {
-      word-break: break-word !important;
-      white-space: normal !important;
     }
 
     .MathJax {
@@ -1062,6 +1064,7 @@
         `Pour chaque question, indique juste le numéro (ex: 1. ou 2.a. ou 2.b.) puis donne la réponse. ` +
         `Utilise uniquement les méthodes du programme officiel français de ${selectedMathLevel}. ` +
         `La présentation doit être exactement comme sur une copie d'élève français, pas comme un cours.` +
+        ` Si tu utilises des titres d'étapes, qu'ils soient très courts : maximum 4 mots sans description dans le titre (exemple : "Étape 1").` +
         `\n\nRéférence de qualité (note sur 20 comme sur une copie) :\n` +
         `- Note 17-20 : correction parfaite, raisonnement rigoureux, présentation impeccable\n` +
         `- Note 13-16 : quelques erreurs de calcul légères, présentation correcte\n` +
