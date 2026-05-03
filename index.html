@@ -260,14 +260,24 @@
       max-width: 100%;
     }
 
-    #outputText,
-    #mathOutput {
+    #outputText {
       min-height: 200px;
       height: auto;
       max-height: none;
       overflow: visible;
       white-space: pre-wrap;
       word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    #mathOutput {
+      min-height: 200px;
+      height: auto;
+      max-height: none;
+      overflow-x: auto;
+      overflow-y: visible;
+      white-space: normal;
+      word-break: break-word;
       overflow-wrap: break-word;
     }
 
@@ -490,6 +500,7 @@
 
         <div class="controls">
           <button class="btn-primary" id="solveBtn">Résoudre</button>
+          <button class="btn-secondary" id="mathCopyBtn" disabled>Copier la correction</button>
         </div>
 
         <div>
@@ -530,11 +541,13 @@
     const mathPreviewWrap = document.getElementById("mathPreviewWrap");
     const mathPreview = document.getElementById("mathPreview");
     const mathRemoveImageBtn = document.getElementById("mathRemoveImageBtn");
+    const mathCopyBtn = document.getElementById("mathCopyBtn");
     const mathOutput = document.getElementById("mathOutput");
     const defaultButtonText = "Reformuler";
     const loadingButtonText = "Reformulation en cours...";
     const defaultSolveButtonText = "Résoudre";
     const loadingSolveButtonText = "Résolution en cours...";
+    const defaultMathCopyButtonText = "Copier la correction";
     const textModel = "llama-3.3-70b-versatile";
     const visionModel = "meta-llama/llama-4-scout-17b-16e-instruct";
     let reformulateImageDataUrl = "";
@@ -837,6 +850,7 @@
         mathDropText
       );
       mathOutput.textContent = "Photo supprimée.";
+      mathCopyBtn.disabled = true;
     });
 
     targetGrade.addEventListener("input", updateGradeDisplay);
@@ -948,6 +962,21 @@
       }
     });
 
+    mathCopyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(mathOutput.textContent);
+        mathCopyBtn.textContent = "Copié !";
+        setTimeout(() => {
+          mathCopyBtn.textContent = defaultMathCopyButtonText;
+        }, 1400);
+      } catch (error) {
+        mathCopyBtn.textContent = "Impossible de copier";
+        setTimeout(() => {
+          mathCopyBtn.textContent = defaultMathCopyButtonText;
+        }, 1400);
+      }
+    });
+
     solveBtn.addEventListener("click", async () => {
       const selectedMathLevel = mathLevel.value;
       const mathNoteVisee = Number(mathTargetGrade.value);
@@ -984,6 +1013,7 @@
 
       solveBtn.disabled = true;
       solveBtn.textContent = loadingSolveButtonText;
+      mathCopyBtn.disabled = true;
       mathOutput.textContent = "Traitement de la correction...";
 
       try {
@@ -1032,11 +1062,19 @@
         }
 
         mathOutput.textContent = resultText;
+        if (persistedMathImageDataUrl) {
+          mathPreview.src = persistedMathImageDataUrl;
+          mathPreviewWrap.hidden = false;
+          mathRemoveImageBtn.hidden = false;
+          mathDropText.hidden = true;
+        }
         await renderMathJax();
+        mathCopyBtn.disabled = false;
       } catch (error) {
         mathOutput.textContent =
           `Impossible de résoudre l'exercice : ${error.message}\n` +
           "Vérifie ta clé API, ta connexion internet et réessaie.";
+        mathCopyBtn.disabled = true;
       } finally {
         solveBtn.disabled = false;
         solveBtn.textContent = defaultSolveButtonText;
