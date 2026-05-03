@@ -747,37 +747,75 @@
       mathCopyBtn.disabled = true;
       mathOutput.textContent = "En cours...";
 
-      const postBacOption = "Post-Bac";
-      const ordreQuestions =
-        "réponds question par question dans l'ordre de l'exercice. N'invente pas d'étapes supplémentaires. Indique le numéro de chaque question (1. / 2.a. / etc.) puis donne la réponse. Présentation comme sur une copie d'élève français.";
-      const piedNoteGrade =
-        `\n\nNote visée ${note}/20 :\n` +
-        "- 17-20 : correction parfaite\n- 13-16 : quelques erreurs légères\n- 10-12 : erreurs visibles, raisonnement incomplet\n- 6-9 : erreurs fréquentes, confus\n- 0-5 : nombreuses erreurs\n\n" +
-        "N'écris pas la note dans ta réponse.";
-      const answerRulesStandard =
-        ordreQuestions.charAt(0).toUpperCase() + ordreQuestions.slice(1) + piedNoteGrade;
-
-      let systemPrompt;
-      if (lvl === postBacOption) {
-        systemPrompt =
-          "Tu es un expert en mathématiques. Résous cet exercice avec le niveau de rigueur et de détail approprié, sans restriction de programme.\n\n" +
-          answerRulesStandard;
-      } else if (lvl === "1ère STMG" || lvl === "Terminale STMG") {
-        systemPrompt =
-          `Tu es un professeur de maths français. L'élève est en ${lvl}.\n\n` +
-          `Programme ${lvl}, filière STMG : statistiques, suites arithmétiques et géométriques, fonctions du second degré, mathématiques financières. Pas de dérivées complexes ni de probabilités avancées.\n\n` +
-          `RÈGLE 1 : Si l'exercice contient des notions absentes de ce cadre ${lvl}, réponds UNIQUEMENT :\n"❌ Cet exercice dépasse le programme ${lvl} choisi.\nNotions hors programme : [liste].\nChange le niveau ou l'exercice."\n\n` +
-          `RÈGLE 2 : Sinon, réponds question par question dans l'ordre de l'exercice. N'invente pas d'étapes supplémentaires. Indique le numéro de chaque question (1. / 2.a. / etc.) puis donne la réponse. Utilise uniquement les méthodes adaptées au programme ${lvl} (STMG). Présentation comme sur une copie d'élève français.\n\n` +
-          `Note visée ${note}/20 :\n` +
-          "- 17-20 : correction parfaite\n- 13-16 : quelques erreurs légères\n- 10-12 : erreurs visibles, raisonnement incomplet\n- 6-9 : erreurs fréquentes, confus\n- 0-5 : nombreuses erreurs\n\n" +
-          "N'écris pas la note dans ta réponse.";
-      } else {
-        systemPrompt =
-          `Tu es un professeur de maths français. L'élève est en ${lvl}.\n\n` +
-          `RÈGLE 1 : Si l'exercice contient des notions absentes du programme de ${lvl}, réponds UNIQUEMENT :\n"❌ Cet exercice ne correspond pas au niveau ${lvl}.\nNotions hors programme : [liste].\nChange le niveau ou l'exercice."\n\n` +
-          `RÈGLE 2 : Si le niveau est correct, ${ordreQuestions}` +
-          piedNoteGrade;
-      }
+      const systemPrompt =
+        "Tu es un professeur de maths français expert.\n\n" +
+        "PROGRAMMES OFFICIELS PAR NIVEAU (à utiliser pour " +
+        "vérifier si l'exercice correspond au niveau choisi) :\n\n" +
+        "6ème : fractions simples, nombres décimaux, " +
+        "proportionnalité, périmètres et aires simples, " +
+        "symétrie axiale, angles.\n\n" +
+        "5ème : pourcentages, nombres relatifs, fractions " +
+        "avancées, théorème de Thalès (non), triangles, " +
+        "volumes simples, probabilités simples.\n\n" +
+        "4ème : puissances, racines carrées simples, " +
+        "développement et factorisation simples, équations " +
+        "du premier degré, Pythagore, trigonométrie basique " +
+        "(sin/cos/tan), statistiques simples.\n\n" +
+        "3ème : identités remarquables, équations et inéquations " +
+        "du premier degré, systèmes d'équations simples, " +
+        "fonctions linéaires et affines, Pythagore, Thalès, " +
+        "trigonométrie (sin/cos/tan), statistiques, " +
+        "probabilités, notion de vecteur.\n\n" +
+        "2nde : fonctions (affine, carré, inverse, racine), " +
+        "équations du second degré (sans discriminant complexe), " +
+        "géométrie analytique basique, vecteurs, statistiques " +
+        "descriptives, probabilités conditionnelles simples, " +
+        "systèmes d'équations.\n\n" +
+        "1ère STMG : suites arithmétiques et géométriques " +
+        "simples, fonctions du second degré sans dérivées " +
+        "complexes, statistiques à deux variables, " +
+        "mathématiques financières basiques, pourcentages " +
+        "d'évolution.\n\n" +
+        "1ère Spécialité : dérivées (polynômes, quotients), " +
+        "fonctions (variations, extremums), suites numériques, " +
+        "trigonométrie (cos/sin généralisés), géométrie " +
+        "dans l'espace, probabilités (loi binomiale), " +
+        "combinatoire basique.\n\n" +
+        "Terminale STMG : suites arithmétiques et géométriques " +
+        "appliquées, mathématiques financières (annuités, " +
+        "emprunts), statistiques et probabilités niveau STMG, " +
+        "fonctions logarithme et exponentielle niveau STMG " +
+        "(applications concrètes uniquement).\n\n" +
+        "Terminale Spécialité : intégrales simples (définition, " +
+        "calcul de primitives polynomiales, exponentielles), " +
+        "dérivées avancées, limites de fonctions et de suites, " +
+        "probabilités (loi normale, intervalle de confiance), " +
+        "géométrie dans l'espace avec vecteurs, " +
+        "nombres complexes (module, argument, forme " +
+        "trigonométrique basique), logarithme népérien.\n\n" +
+        "Terminale Maths Expertes : arithmétique (PGCD, " +
+        "congruences), nombres complexes avancés (racines " +
+        "nièmes, transformations géométriques), matrices " +
+        "(calcul matriciel, inverse, systèmes), graphes, " +
+        "démonstrations par récurrence avancées.\n\n" +
+        "Post-Bac (sans limite) : tout est autorisé. " +
+        "Résous sans restriction de programme avec le " +
+        "niveau de rigueur d'un étudiant en prépa ou " +
+        "à l'université (intégrales de fonctions " +
+        "rationnelles, séries, espaces vectoriels, " +
+        "calcul différentiel, etc.).\n\n" +
+        "RÈGLE STRICTE : Compare les notions de l'exercice " +
+        "avec le programme du niveau choisi. Si l'exercice " +
+        "utilise des notions absentes de ce programme, " +
+        "réponds UNIQUEMENT :\n❌ Cet exercice ne correspond pas au niveau " +
+        lvl +
+        ".\nNotions hors programme : [liste précise].\nChange le niveau ou l'exercice.\n\n" +
+        "Si le niveau est correct, résous question par question " +
+        "dans l'ordre exact sans inventer d'étapes. " +
+        "Présentation comme sur une copie d'élève français.\n\n" +
+        "Note visée " +
+        note +
+        "/20 - adapte les erreurs en conséquence.";
 
       try {
         const userMsg = persistedMathImageDataUrl
