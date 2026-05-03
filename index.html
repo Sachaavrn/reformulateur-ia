@@ -286,12 +286,32 @@
       min-height: 200px;
       height: auto;
       max-height: none;
+      font-size: 0.9rem !important;
       overflow-x: hidden !important;
       overflow-y: visible;
       white-space: normal !important;
       word-break: break-word !important;
       overflow-wrap: break-word !important;
       max-width: 100% !important;
+      width: 100% !important;
+    }
+
+    #mathOutput h3 {
+      font-size: 1rem !important;
+      word-break: break-word !important;
+      overflow-wrap: break-word !important;
+      white-space: normal !important;
+    }
+
+    #mathOutput h4 {
+      font-size: 0.95rem !important;
+      word-break: break-word !important;
+      white-space: normal !important;
+    }
+
+    #mathOutput strong {
+      word-break: break-word !important;
+      white-space: normal !important;
     }
 
     .MathJax {
@@ -321,7 +341,7 @@
     }
 
     .math-scroll-wrapper {
-      overflow-x: auto;
+      overflow-x: hidden;
       max-width: 100%;
     }
 
