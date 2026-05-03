@@ -474,6 +474,30 @@
         line-height: 1.55;
       }
     }
+
+    .app,
+    .content,
+    .tab-panel,
+    .output,
+    #mathOutput,
+    #outputText,
+    .upload-zone,
+    .preview-wrap,
+    .controls {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+      overflow-x: hidden !important;
+    }
+
+    #mathOutput * {
+      max-width: 100% !important;
+      min-width: 0 !important;
+      box-sizing: border-box !important;
+      word-break: break-word !important;
+      overflow-wrap: break-word !important;
+    }
   </style>
 </head>
 <body>
