@@ -277,6 +277,23 @@
       white-space: normal;
     }
 
+    .MathJax {
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      max-width: 100% !important;
+    }
+
+    .MJX-TEX {
+      overflow-x: auto !important;
+      max-width: 100% !important;
+    }
+
+    mjx-container {
+      overflow-x: auto !important;
+      max-width: 100% !important;
+      display: block !important;
+    }
+
     #mathPanel,
     #mathPanel > div {
       height: auto;
@@ -522,6 +539,7 @@
     const visionModel = "meta-llama/llama-4-scout-17b-16e-instruct";
     let reformulateImageDataUrl = "";
     let mathImageDataUrl = "";
+    let persistedMathImageDataUrl = "";
 
     async function renderMathJax() {
       if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
@@ -747,6 +765,7 @@
       dropText: mathDropText,
       setDataUrl: (dataUrl) => {
         mathImageDataUrl = dataUrl;
+        persistedMathImageDataUrl = dataUrl;
       }
     });
 
@@ -769,6 +788,7 @@
             mathRemoveImageBtn,
             mathDropText
           );
+          persistedMathImageDataUrl = mathImageDataUrl;
         } else {
           reformulateImageDataUrl = await loadImageFromInput(
             imageFile,
@@ -783,6 +803,7 @@
       } catch (error) {
         if (isMathTabActive) {
           mathImageDataUrl = "";
+          persistedMathImageDataUrl = "";
           clearImageSelection(
             mathImageInput,
             mathPreviewWrap,
@@ -807,6 +828,7 @@
 
     mathRemoveImageBtn.addEventListener("click", () => {
       mathImageDataUrl = "";
+      persistedMathImageDataUrl = "";
       clearImageSelection(
         mathImageInput,
         mathPreviewWrap,
@@ -931,7 +953,7 @@
       const mathNoteVisee = Number(mathTargetGrade.value);
       const exercise = mathInput.value.trim();
 
-      if (!exercise && !mathImageDataUrl) {
+      if (!exercise && !persistedMathImageDataUrl) {
         mathOutput.textContent = "Merci d'écrire un exercice ou d'importer une photo avant de cliquer sur Résoudre.";
         return;
       }
@@ -965,7 +987,7 @@
       mathOutput.textContent = "Traitement de la correction...";
 
       try {
-        const userMessage = mathImageDataUrl
+        const userMessage = persistedMathImageDataUrl
           ? {
             role: "user",
             content: [
@@ -978,7 +1000,7 @@
               {
                 type: "image_url",
                 image_url: {
-                  url: mathImageDataUrl
+                  url: persistedMathImageDataUrl
                 }
               }
             ]
@@ -989,7 +1011,7 @@
           };
 
         const data = await callChatApi({
-          model: mathImageDataUrl ? visionModel : textModel,
+          model: persistedMathImageDataUrl ? visionModel : textModel,
           temperature: 0.3,
           messages: [
             {
