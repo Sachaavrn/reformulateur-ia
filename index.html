@@ -238,8 +238,29 @@
       white-space: pre-wrap;
     }
 
+    #mathPanel,
+    #mathPanel > div {
+      min-width: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    .math-output-parent {
+      min-width: 0;
+      width: 100%;
+    }
+
+    .math-output-wrapper {
+      width: calc(100% - 0px) !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      flex-shrink: 1 !important;
+      align-self: stretch !important;
+    }
+
     #mathOutput {
       width: 100%;
+      max-width: 100%;
       min-width: 0;
       word-break: break-word;
       overflow-wrap: break-word;
@@ -454,9 +475,9 @@
           <button class="btn-secondary" id="mathCopyBtn" disabled>Copier la correction</button>
         </div>
 
-        <div>
+        <div class="math-output-parent">
           <label>Correction</label>
-          <div style="width:100%; max-width:100%; overflow-x:auto; overflow-y:visible; -webkit-overflow-scrolling:touch; border:1px dashed #cbbdff; border-radius:12px; background:#faf8ff; padding:14px; box-sizing:border-box; min-height:140px;">
+          <div class="math-output-wrapper" style="overflow-x:auto; overflow-y:visible; -webkit-overflow-scrolling:touch; border:1px dashed #cbbdff; border-radius:12px; background:#faf8ff; padding:14px; box-sizing:border-box; min-height:140px;">
             <div id="mathOutput" style="min-width:0; word-break:break-word; line-height:1.7;">La correction apparaîtra ici.</div>
           </div>
         </div>
