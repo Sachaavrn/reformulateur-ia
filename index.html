@@ -440,11 +440,17 @@
         <div>
           <label>Niveau de maths</label>
           <select id="mathLevel">
-            <option>6ème</option><option>5ème</option><option>4ème</option>
-            <option>3ème</option><option>2nde</option><option>STMG</option><option>1ère</option>
+            <option>6ème</option>
+            <option>5ème</option>
+            <option>4ème</option>
+            <option>3ème</option>
+            <option>2nde</option>
+            <option>1ère STMG</option>
+            <option>1ère Spécialité</option>
+            <option>Terminale STMG</option>
             <option>Terminale Spécialité</option>
             <option>Terminale Maths Expertes</option>
-            <option>Post-Bac (sans limite)</option>
+            <option>Post-Bac</option>
           </select>
         </div>
 
@@ -741,7 +747,7 @@
       mathCopyBtn.disabled = true;
       mathOutput.textContent = "En cours...";
 
-      const postBacOption = "Post-Bac (sans limite)";
+      const postBacOption = "Post-Bac";
       const ordreQuestions =
         "réponds question par question dans l'ordre de l'exercice. N'invente pas d'étapes supplémentaires. Indique le numéro de chaque question (1. / 2.a. / etc.) puis donne la réponse. Présentation comme sur une copie d'élève français.";
       const piedNoteGrade =
@@ -756,12 +762,12 @@
         systemPrompt =
           "Tu es un expert en mathématiques. Résous cet exercice avec le niveau de rigueur et de détail approprié, sans restriction de programme.\n\n" +
           answerRulesStandard;
-      } else if (lvl === "STMG") {
+      } else if (lvl === "1ère STMG" || lvl === "Terminale STMG") {
         systemPrompt =
-          "Tu es un professeur de maths français. L'élève est en Terminale STMG.\n\n" +
-          "Programme de Terminale STMG : statistiques, suites arithmétiques et géométriques, fonctions du second degré, mathématiques financières. Pas de dérivées complexes ni de probabilités avancées.\n\n" +
-          `RÈGLE 1 : Si l'exercice contient des notions absentes de ce cadre STMG, réponds UNIQUEMENT :\n"❌ Cet exercice dépasse le programme STMG choisi.\nNotions hors programme : [liste].\nChange le niveau ou l'exercice."\n\n` +
-          `RÈGLE 2 : Sinon, réponds question par question dans l'ordre de l'exercice. N'invente pas d'étapes supplémentaires. Indique le numéro de chaque question (1. / 2.a. / etc.) puis donne la réponse. Utilise uniquement les méthodes adaptées au programme STMG. Présentation comme sur une copie d'élève français.\n\n` +
+          `Tu es un professeur de maths français. L'élève est en ${lvl}.\n\n` +
+          `Programme ${lvl}, filière STMG : statistiques, suites arithmétiques et géométriques, fonctions du second degré, mathématiques financières. Pas de dérivées complexes ni de probabilités avancées.\n\n` +
+          `RÈGLE 1 : Si l'exercice contient des notions absentes de ce cadre ${lvl}, réponds UNIQUEMENT :\n"❌ Cet exercice dépasse le programme ${lvl} choisi.\nNotions hors programme : [liste].\nChange le niveau ou l'exercice."\n\n` +
+          `RÈGLE 2 : Sinon, réponds question par question dans l'ordre de l'exercice. N'invente pas d'étapes supplémentaires. Indique le numéro de chaque question (1. / 2.a. / etc.) puis donne la réponse. Utilise uniquement les méthodes adaptées au programme ${lvl} (STMG). Présentation comme sur une copie d'élève français.\n\n` +
           `Note visée ${note}/20 :\n` +
           "- 17-20 : correction parfaite\n- 13-16 : quelques erreurs légères\n- 10-12 : erreurs visibles, raisonnement incomplet\n- 6-9 : erreurs fréquentes, confus\n- 0-5 : nombreuses erreurs\n\n" +
           "N'écris pas la note dans ta réponse.";
