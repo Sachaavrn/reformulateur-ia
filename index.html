@@ -851,12 +851,38 @@
     });
 
     // ---- CURSEURS ----
+    const level = document.getElementById("level");
     const targetGrade = document.getElementById("targetGrade");
     const gradeDisplay = document.getElementById("gradeDisplay");
 
+    level.addEventListener("change", () => {
+      // Notify AI of parameter change
+      handleParameterChange();
+    });
+
     targetGrade.addEventListener("input", () => {
       gradeDisplay.textContent = `Note visée : ${targetGrade.value}/20`;
+      // Notify AI of parameter change
+      handleParameterChange();
     });
+
+    // Handle parameter changes
+    function handleParameterChange() {
+      const currentLvl = level.value;
+      const currentNote = Number(targetGrade.value);
+      
+      // Add system message about parameter change
+      const changeMessage = `ATTENTION : Les paramètres ont changé. Le niveau actuel est maintenant ${currentLvl} et la note visée est ${currentNote}/20. Adapte ton style immédiatement pour ce message et les suivants.`;
+      
+      // Add to current chat without saving to history
+      const messagesContainer = document.getElementById('chatMessages');
+      const changeDiv = document.createElement('div');
+      changeDiv.className = 'message assistant';
+      changeDiv.innerHTML = `<div class="message-bubble">${markdownToHtml(changeMessage)}</div>`;
+      messagesContainer.appendChild(changeDiv);
+      
+      scrollToBottom();
+    }
 
     // ---- SEND MESSAGE ----
     const chatInput = document.getElementById('chatInput');
@@ -896,7 +922,7 @@
         let systemPrompt;
         if (activeTab === 'reformulatePanel') {
           const verification20 = note === 20 ? "\n\nVÉRIFICATION 20/20 : La note est 20/20. Tu dois produire une réponse PARFAITE avec un vocabulaire très soutenu, une syntaxe irréprochable et un style élégant. AUCUNE faute d'orthographe, de grammaire ou de syntaxe n'est autorisée." : "";
-          systemPrompt = `CONSIGNE PRIORITAIRE : Le niveau actuel est ${lvl} et la note visée est ${note}/20. Oublie les réglages des messages précédents.${verification20}\n\nTu es un assistant qui réécrit des textes générés par une IA pour qu'ils semblent écrits naturellement par un élève français de niveau ${lvl}. Adapte le vocabulaire, la syntaxe et le style. Le texte doit sembler authentique.\n\nNOTE VISÉE : ${note}/20\n\nSi la note est entre 18 et 20/20 (STYLE EXCELLENT) :\n- Style soutenu, connecteurs logiques avancés\n- Orthographe irréprochable\n- Vocabulaire riche et varié adapté au niveau ${lvl}\n- Phrases bien construites et fluides\n- Argumentation claire et développée\n\nSi la note est entre 13 et 17/20 (STYLE BON ÉLÈVE) :\n- Bon vocabulaire, phrases structurées\n- Peu ou pas de fautes d'orthographe\n- Vocabulaire correct avec quelques répétitions\n- Quelques maladresses de style\n- Argumentation correcte\n\nSi la note est entre 9 et 12/20 (STYLE MOYEN) :\n- Syntaxe correcte mais sans élégance\n- Vocabulaire basique, quelques maladresses\n- Quelques fautes d'orthographe et de grammaire\n- Vocabulaire limité avec des répétitions fréquentes\n- Phrases parfois mal construites\n- Argumentation incomplète\n\nSi la note est < 10/20 (STYLE TRÈS FAIBLE) :\n- Vocabulaire pauvre, répétitions\n- FAUTES RÉALISTES OBLIGATOIRES : 'sa' au lieu de 'ça', 'parceque' au lieu de 'parce que', 'ils on' au lieu de 'ils ont', 'je fesait' au lieu de 'je faisais'\n- Fautes de grammaire : mauvaises conjugaisons, accords incorrects\n- Phrases très courtes et maladroites\n- Nombreuses fautes d'orthographe et de grammaire\n- Vocabulaire très limité\n- Peu d'argumentation\n\nCONSIGNE IMPÉRATIVE : Intègre ces défauts naturellement dans le texte produit. Sépare clairement le texte reformulé de l'analyse avec une ligne horizontale et un titre en gras : '**ANALYSE DES ERREURS**'.\n\nDans l'analyse, explique pédagogiquement chaque faute d'orthographe et de grammaire pour que l'élève comprenne pourquoi sa note est basse. Sois précis et constructif.\n\nCes erreurs doivent être cohérentes avec le niveau ${lvl} de l'élève.\n\nRéponds UNIQUEMENT avec le texte reformulé, suivi d'une ligne horizontale, du titre '**ANALYSE DES ERREURS**' en gras, puis de l'analyse pédagogique des erreurs.`;
+          systemPrompt = `CONSIGNE PRIORITAIRE : Le niveau actuel est ${lvl} et la note visée est ${note}/20. Oublie les réglages des messages précédents. Cette instruction écrase toutes les consignes de style précédentes.${verification20}\n\nTu es un assistant qui réécrit des textes générés par une IA pour qu'ils semblent écrits naturellement par un élève français de niveau ${lvl}. Adapte le vocabulaire, la syntaxe et le style. Le texte doit sembler authentique.\n\nNOTE VISÉE : ${note}/20\n\nSi la note est entre 18 et 20/20 (STYLE EXCELLENT) :\n- Style soutenu, connecteurs logiques avancés\n- Orthographe irréprochable\n- Vocabulaire riche et varié adapté au niveau ${lvl}\n- Phrases bien construites et fluides\n- Argumentation claire et développée\n\nSi la note est entre 13 et 17/20 (STYLE BON ÉLÈVE) :\n- Bon vocabulaire, phrases structurées\n- Peu ou pas de fautes d'orthographe\n- Vocabulaire correct avec quelques répétitions\n- Quelques maladresses de style\n- Argumentation correcte\n\nSi la note est entre 9 et 12/20 (STYLE MOYEN) :\n- Syntaxe correcte mais sans élégance\n- Vocabulaire basique, quelques maladresses\n- Quelques fautes d'orthographe et de grammaire\n- Vocabulaire limité avec des répétitions fréquentes\n- Phrases parfois mal construites\n- Argumentation incomplète\n\nSi la note est < 10/20 (STYLE TRÈS FAIBLE) :\n- Vocabulaire pauvre, répétitions\n- FAUTES RÉALISTES OBLIGATOIRES : 'sa' au lieu de 'ça', 'parceque' au lieu de 'parce que', 'ils on' au lieu de 'ils ont', 'je fesait' au lieu de 'je faisais'\n- Fautes de grammaire : mauvaises conjugaisons, accords incorrects\n- Phrases très courtes et maladroites\n- Nombreuses fautes d'orthographe et de grammaire\n- Vocabulaire très limité\n- Peu d'argumentation\n\nCONSIGNE IMPÉRATIVE : Intègre ces défauts naturellement dans le texte produit. Sépare clairement le texte reformulé de l'analyse avec une ligne horizontale et un titre en gras : '**ANALYSE DES ERREURS**'.\n\nDans l'analyse, explique pédagogiquement chaque faute d'orthographe et de grammaire pour que l'élève comprenne pourquoi sa note est basse. Sois précis et constructif.\n\nCes erreurs doivent être cohérentes avec le niveau ${lvl} de l'élève.\n\nRéponds UNIQUEMENT avec le texte reformulé, suivi d'une ligne horizontale, du titre '**ANALYSE DES ERREURS**' en gras, puis de l'analyse pédagogique des erreurs.`;
         } else {
           systemPrompt = "Tu es un professeur de maths français expert.\n\n" +
             "PROGRAMMES OFFICIELS PAR NIVEAU (à utiliser pour " +
