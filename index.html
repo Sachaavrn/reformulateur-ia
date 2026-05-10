@@ -448,17 +448,17 @@
     .delete-chat-btn {
       background: none;
       border: none;
-      color: #ef4444;
+      color: #6b7280;
       cursor: pointer;
       padding: 8px;
       font-size: 14px;
       opacity: 0.7;
-      transition: opacity 0.2s;
+      transition: opacity 0.2s, color 0.2s;
     }
 
     .delete-chat-btn:hover {
       opacity: 1;
-      color: #dc2626;
+      color: #ff4d4d;
     }
 
     .chat-main {
@@ -771,7 +771,7 @@
         // Create delete button
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'delete-chat-btn';
-        deleteBtn.innerHTML = '🗑';
+        deleteBtn.innerHTML = '✕';
         deleteBtn.onclick = (e) => {
           e.stopPropagation();
           deleteChat(chat.id);
@@ -799,8 +799,14 @@
       if (confirm('Supprimer cette discussion ?')) {
         chatHistory = chatHistory.filter(c => c.id !== chatId);
         if (currentChatId === chatId) {
-          // Create new empty chat if we deleted the current one
-          newChat();
+          // Only create new chat if there are other chats, otherwise show welcome
+          if (chatHistory.length > 0) {
+            newChat();
+          } else {
+            // No chats left, show welcome message
+            currentChatId = null;
+            renderChatMessages([]);
+          }
         }
         saveChatHistory();
         renderChatHistory();
@@ -987,14 +993,16 @@
     
     async function sendMessage() {
       const message = chatInput.value.trim();
-      if (!message) return;
       
       // Check for image in preview
       const reformulatePreview = document.getElementById("reformulatePreview");
       const hasImage = reformulatePreview.src && reformulatePreview.src !== "";
       
+      // Allow sending if there's a message or an image
+      if (!message && !hasImage) return;
+      
       // Add user message to chat
-      addMessageToChat('user', message);
+      addMessageToChat('user', message || 'Analyse de l\'image jointe...');
       chatInput.value = '';
       
       // Show loading state
@@ -1184,8 +1192,15 @@
     // ---- INITIALIZATION ----
     window.onload = () => {
       loadChatHistory();
+      if (chatHistory.length > 0) {
+        // Load most recent chat if available
+        currentChatId = chatHistory[0].id;
+        const recentChat = chatHistory.find(c => c.id === currentChatId);
+        if (recentChat) {
+          renderChatMessages(recentChat.messages);
+        }
+      }
       renderChatHistory();
-      // Don't create new chat automatically, just load existing or stay empty
     };
     
     // ---- API ----
