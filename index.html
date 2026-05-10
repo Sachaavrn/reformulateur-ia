@@ -694,7 +694,7 @@
       copyBtn.disabled = true;
       outputText.textContent = "En cours...";
 
-      const systemPrompt = `Tu es un assistant qui réécrit des textes générés par une IA pour qu'ils semblent écrits naturellement par un élève français de niveau ${lvl}. Adapte le vocabulaire, la syntaxe et le style. Le texte doit sembler authentique.\n\nNOTE VISÉE : ${note}/20\n\nSi note 18-20 :\n- Aucune faute d'orthographe ni de grammaire\n- Vocabulaire riche et varié adapté au niveau ${lvl}\n- Phrases bien construites et fluides\n- Argumentation claire et développée\n\nSi note 14-17 :\n- 1 ou 2 fautes d'orthographe légères\n- Vocabulaire correct avec quelques répétitions\n- Quelques maladresses de style\n- Argumentation correcte\n\nSi note 10-13 :\n- Plusieurs fautes d'orthographe et de grammaire\n- Vocabulaire limité avec des répétitions fréquentes\n- Phrases parfois mal construites\n- Argumentation incomplète\n\nSi note 6-9 :\n- Nombreuses fautes d'orthographe et de grammaire\n- Vocabulaire très limité\n- Phrases courtes et maladroites\n- Peu d'argumentation\n\nSi note 0-5 :\n- Fautes très nombreuses et basiques\n- Vocabulaire très pauvre\n- Phrases incohérentes parfois\n- Hors sujet partiel\n\nCes erreurs doivent être cohérentes avec \nle niveau ${lvl} de l'élève.\n\nRéponds UNIQUEMENT avec le texte reformulé.`;
+      const systemPrompt = `Tu es un assistant qui réécrit des textes générés par une IA pour qu'ils semblent écrits naturellement par un élève français de niveau ${lvl}. Adapte le vocabulaire, la syntaxe et le style. Le texte doit sembler authentique.\n\nNOTE VISÉE : ${note}/20\n\nSi la note est entre 18 et 20/20 (STYLE EXCELLENT) :\n- Style soutenu, connecteurs logiques avancés\n- Orthographe irréprochable\n- Vocabulaire riche et varié adapté au niveau ${lvl}\n- Phrases bien construites et fluides\n- Argumentation claire et développée\n\nSi la note est entre 13 et 17/20 (STYLE BON ÉLÈVE) :\n- Bon vocabulaire, phrases structurées\n- Peu ou pas de fautes d'orthographe\n- Vocabulaire correct avec quelques répétitions\n- Quelques maladresses de style\n- Argumentation correcte\n\nSi la note est entre 9 et 12/20 (STYLE MOYEN) :\n- Syntaxe correcte mais sans élégance\n- Vocabulaire basique, quelques maladresses\n- Plusieurs fautes d'orthographe et de grammaire\n- Vocabulaire limité avec des répétitions fréquentes\n- Phrases parfois mal construites\n- Argumentation incomplète\n\nSi la note est < 9/20 (STYLE TRÈS FAIBLE) :\n- Vocabulaire pauvre, répétitions\n- Fautes d'orthographe et de conjugaison réalistes\n- Phrases très courtes et maladroites\n- Nombreuses fautes d'orthographe et de grammaire\n- Vocabulaire très limité\n- Peu d'argumentation\n\nCONSIGNE IMPÉRATIVE : Intègre ces défauts naturellement dans le texte produit. À la fin de ce que tu as rédigé, mentionne les erreurs que tu as commises exprès ou comment tu as adapté ton style.\n\nCes erreurs doivent être cohérentes avec le niveau ${lvl} de l'élève.\n\nRéponds UNIQUEMENT avec le texte reformulé suivi de l'analyse des erreurs volontaires.`;
 
       try {
         const userMsg = reformulateImageDataUrl
@@ -875,9 +875,9 @@
         "- Certaines questions non traitées ou hors sujet\n" +
         "- Présentation désorganisée, peu claire\n" +
         "- Méthodes parfois incorrectes pour le niveau\n\n" +
-        "INSTRUCTION CRUCIALE : L'IA doit dire explicitement les endroits où elle a fait des fautes voulues. " +
-        "Par exemple : '[ERREUR VOLONTAIRE] J'ai oublié le signe moins ici', " +
-        "'[ERREUR VOLONTAIRE] J'ai inversé les fractions', etc. " +
+        "CONSIGNE IMPÉRATIVE : Intègre ces défauts naturellement dans la correction produite. " +
+        "À la fin de ce que tu as rédigé, mentionne les erreurs que tu as commises exprès ou comment tu as adapté ton style. " +
+        "Par exemple : 'ERREURS VOLONTAIRES : J'ai oublié le signe moins à l'étape 3, j'ai inversé les fractions dans le calcul final'. " +
         "Ceci pour montrer que les erreurs sont simulées selon la note demandée.\n\n" +
         "IMPORTANT : Ces erreurs doivent être cohérentes \n" +
         "avec le niveau " + lvl + ". Un élève de 6ème \n" +
