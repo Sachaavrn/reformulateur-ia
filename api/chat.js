@@ -28,6 +28,32 @@ export default async function handler(req, res) {
     });
   }
 
+  // Validation permissive pour les images - accepte toute chaîne commençant par "data:image/"
+  const validateMessages = (msgs) => {
+    for (const msg of msgs) {
+      if (msg.content && Array.isArray(msg.content)) {
+        for (const part of msg.content) {
+          if (part.type === 'image_url' && part.image_url && part.image_url.url) {
+            const url = part.image_url.url;
+            if (typeof url === 'string' && url.startsWith('data:image/')) {
+              // Accepter directement sans validation supplémentaire
+              continue;
+            }
+          }
+        }
+      }
+    }
+    return true;
+  };
+
+  if (!validateMessages(messages)) {
+    return res.status(400).json({
+      error: {
+        message: "Format d'image invalide."
+      }
+    });
+  }
+
   try {
     const groqResponse = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
