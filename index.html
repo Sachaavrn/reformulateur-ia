@@ -677,7 +677,7 @@
       copyBtn.disabled = true;
       outputText.textContent = "En cours...";
 
-      const systemPrompt = `Tu es un assistant qui réécrit des textes générés par une IA pour qu'ils semblent écrits naturellement par un élève français de niveau ${lvl}. Adapte le vocabulaire, la syntaxe et le style. Le texte doit sembler authentique.\n\nNote visée ${note}/20 :\n- 17-20 : quasi parfait, vocabulaire riche\n- 13-16 : quelques maladresses, 1-2 fautes\n- 10-12 : fautes légères, répétitions\n- 6-9 : fautes visibles, style pauvre\n- 0-5 : nombreuses fautes, hors sujet partiel\n\nRéponds UNIQUEMENT avec le texte reformulé.`;
+      const systemPrompt = `Tu es un assistant qui réécrit des textes générés par une IA pour qu'ils semblent écrits naturellement par un élève français de niveau ${lvl}. Adapte le vocabulaire, la syntaxe et le style. Le texte doit sembler authentique.\n\nNOTE VISÉE : ${note}/20\n\nSi note 18-20 :\n- Aucune faute d'orthographe ni de grammaire\n- Vocabulaire riche et varié adapté au niveau ${lvl}\n- Phrases bien construites et fluides\n- Argumentation claire et développée\n\nSi note 14-17 :\n- 1 ou 2 fautes d'orthographe légères\n- Vocabulaire correct avec quelques répétitions\n- Quelques maladresses de style\n- Argumentation correcte\n\nSi note 10-13 :\n- Plusieurs fautes d'orthographe et de grammaire\n- Vocabulaire limité avec des répétitions fréquentes\n- Phrases parfois mal construites\n- Argumentation incomplète\n\nSi note 6-9 :\n- Nombreuses fautes d'orthographe et de grammaire\n- Vocabulaire très limité\n- Phrases courtes et maladroites\n- Peu d'argumentation\n\nSi note 0-5 :\n- Fautes très nombreuses et basiques\n- Vocabulaire très pauvre\n- Phrases incohérentes parfois\n- Hors sujet partiel\n\nCes erreurs doivent être cohérentes avec \nle niveau ${lvl} de l'élève.\n\nRéponds UNIQUEMENT avec le texte reformulé.`;
 
       try {
         const userMsg = reformulateImageDataUrl
@@ -724,12 +724,17 @@
 
     function markdownToHtml(text) {
       return text
+        .replace(/^#### (.+)$/gm, "<h5>$1</h5>")
         .replace(/^### (.+)$/gm, "<h4>$1</h4>")
         .replace(/^## (.+)$/gm, "<h3>$1</h3>")
         .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\n{2,}/g, "</p><p>")
+        .replace(/\*(.+?)\*/g, "<em>$1</em>")
+        .replace(/\n\n/g, "</p><p>")
         .replace(/\n/g, "<br>")
-        .replace(/^/, "<p>").replace(/$/, "</p>");
+        .replace(/^<p>/, "")
+        .replace(/<\/p>$/, "")
+        .replace(/^/, "<p>")
+        .replace(/$/, "</p>");
     }
 
     solveBtn.addEventListener("click", async () => {
@@ -813,9 +818,46 @@
         "Si le niveau est correct, résous question par question " +
         "dans l'ordre exact sans inventer d'étapes. " +
         "Présentation comme sur une copie d'élève français.\n\n" +
-        "Note visée " +
-        note +
-        "/20 - adapte les erreurs en conséquence.";
+        "NOTE VISÉE : " + note + "/20\n\n" +
+        "Tu dois produire une correction qui correspond \n" +
+        "EXACTEMENT à cette note. Voici comment adapter \n" +
+        "ta réponse selon la note ET le niveau " + lvl + " :\n\n" +
+        "Si note 18-20 :\n" +
+        "- Aucune erreur de calcul\n" +
+        "- Raisonnement parfaitement rigoureux\n" +
+        "- Présentation impeccable avec tous les justificatifs\n" +
+        "- Vocabulaire mathématique précis et complet\n" +
+        "- Toutes les étapes justifiées\n\n" +
+        "Si note 14-17 :\n" +
+        "- 1 ou 2 petites erreurs de calcul (pas sur le résultat final)\n" +
+        "- Raisonnement globalement correct avec quelques \n" +
+        "  manques de justification\n" +
+        "- Présentation soignée mais pas parfaite\n" +
+        "- Quelques étapes sautées\n\n" +
+        "Si note 10-13 :\n" +
+        "- Plusieurs erreurs de calcul qui affectent le résultat\n" +
+        "- Raisonnement incomplet, certaines questions \n" +
+        "  partiellement traitées\n" +
+        "- Présentation correcte mais brouillonne\n" +
+        "- Des étapes manquantes ou mal justifiées\n" +
+        "- Parfois une mauvaise méthode utilisée\n\n" +
+        "Si note 6-9 :\n" +
+        "- Nombreuses erreurs de calcul\n" +
+        "- Raisonnement confus et incomplet\n" +
+        "- Certaines questions non traitées ou hors sujet\n" +
+        "- Présentation désorganisée\n" +
+        "- Méthodes parfois incorrectes pour le niveau\n\n" +
+        "Si note 0-5 :\n" +
+        "- Très nombreuses erreurs fondamentales\n" +
+        "- Raisonnement incorrect ou absent\n" +
+        "- Beaucoup de questions non traitées\n" +
+        "- Hors sujet partiel\n" +
+        "- Erreurs de base (signes, opérations simples)\n\n" +
+        "IMPORTANT : Ces erreurs doivent être cohérentes \n" +
+        "avec le niveau " + lvl + ". Un élève de 6ème \n" +
+        "qui vise 8/20 ne fait pas les mêmes erreurs \n" +
+        "qu'un élève de Terminale qui vise 8/20.\n" +
+        "Ne mentionne jamais la note dans ta réponse.";
 
       try {
         const userMsg = persistedMathImageDataUrl
