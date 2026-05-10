@@ -913,6 +913,10 @@
       const message = chatInput.value.trim();
       if (!message) return;
       
+      // Check for image in preview
+      const reformulatePreview = document.getElementById("reformulatePreview");
+      const hasImage = reformulatePreview.src && reformulatePreview.src !== "";
+      
       // Add user message to chat
       addMessageToChat('user', message);
       chatInput.value = '';
@@ -934,7 +938,8 @@
           const verification20 = note === 20 ? "\n\nVÉRIFICATION 20/20 : La note est 20/20. Tu dois produire une réponse PARFAITE avec un vocabulaire très soutenu, une syntaxe irréprochable et un style élégant. AUCUNE faute d'orthographe, de grammaire ou de syntaxe n'est autorisée." : "";
           systemPrompt = `CONSIGNE PRIORITAIRE : Le niveau actuel est ${lvl} et la note visée est ${note}/20. Oublie les réglages des messages précédents. Cette instruction écrase toutes les consignes de style précédentes.${verification20}\n\nTu es un assistant qui réécrit des textes générés par une IA pour qu'ils semblent écrits naturellement par un élève français de niveau ${lvl}. Adapte le vocabulaire, la syntaxe et le style. Le texte doit sembler authentique.\n\nNOTE VISÉE : ${note}/20\n\nSi la note est entre 18 et 20/20 (STYLE EXCELLENT) :\n- Style soutenu, connecteurs logiques avancés\n- Orthographe irréprochable\n- Vocabulaire riche et varié adapté au niveau ${lvl}\n- Phrases bien construites et fluides\n- Argumentation claire et développée\n\nSi la note est entre 13 et 17/20 (STYLE BON ÉLÈVE) :\n- Bon vocabulaire, phrases structurées\n- Peu ou pas de fautes d'orthographe\n- Vocabulaire correct avec quelques répétitions\n- Quelques maladresses de style\n- Argumentation correcte\n\nSi la note est entre 9 et 12/20 (STYLE MOYEN) :\n- Syntaxe correcte mais sans élégance\n- Vocabulaire basique, quelques maladresses\n- Quelques fautes d'orthographe et de grammaire\n- Vocabulaire limité avec des répétitions fréquentes\n- Phrases parfois mal construites\n- Argumentation incomplète\n\nSi la note est < 10/20 (STYLE TRÈS FAIBLE) :\n- Vocabulaire pauvre, répétitions\n- FAUTES RÉALISTES OBLIGATOIRES : 'sa' au lieu de 'ça', 'parceque' au lieu de 'parce que', 'ils on' au lieu de 'ils ont', 'je fesait' au lieu de 'je faisais'\n- Fautes de grammaire : mauvaises conjugaisons, accords incorrects\n- Phrases très courtes et maladroites\n- Nombreuses fautes d'orthographe et de grammaire\n- Vocabulaire très limité\n- Peu d'argumentation\n\nCONSIGNE IMPÉRATIVE : Intègre ces défauts naturellement dans le texte produit. Sépare clairement le texte reformulé de l'analyse avec une ligne horizontale et un titre en gras : '**ANALYSE DES ERREURS**'.\n\nDans l'analyse, explique pédagogiquement chaque faute d'orthographe et de grammaire pour que l'élève comprenne pourquoi sa note est basse. Sois précis et constructif.\n\nCes erreurs doivent être cohérentes avec le niveau ${lvl} de l'élève.\n\nRéponds UNIQUEMENT avec le texte reformulé, suivi d'une ligne horizontale, du titre '**ANALYSE DES ERREURS**' en gras, puis de l'analyse pédagogique des erreurs.`;
         } else {
-          systemPrompt = "Tu es un professeur de maths français expert.\n\n" +
+          const imageContext = hasImage ? "\n\nCONTEXTE IMAGE : Une image est jointe à ce message. Analyse d'abord l'image pour extraire l'énoncé mathématique complet avant de le résoudre selon le niveau choisi." : "";
+          systemPrompt = "Tu es un professeur de maths français expert." + imageContext + "\n\n" +
             "PROGRAMMES OFFICIELS PAR NIVEAU (à utiliser pour " +
             "vérifier si l'exercice correspond au niveau choisi) :\n\n" +
             "6ème : fractions simples, nombres décimaux, " +
@@ -1046,15 +1051,29 @@
             "Ne mentionne jamais la note numérique dans ta réponse.";
         }
         
+        // Build user message with image support
+        let userMessage;
+        if (hasImage) {
+          userMessage = {
+            role: "user",
+            content: [
+              { type: "text", text: message || "Analyse l'image et résous l'exercice." },
+              { type: "image_url", image_url: { url: reformulatePreview.src } }
+            ]
+          };
+        } else {
+          userMessage = { role: "user", content: message };
+        }
+        
         // Build messages array with history (remove timestamp property)
         const apiMessages = [
           { role: "system", content: systemPrompt },
           ...messages.map(msg => ({ role: msg.role, content: msg.content })),
-          { role: "user", content: message }
+          userMessage
         ];
         
         const data = await callChatApi({
-          model: "llama-3.3-70b-versatile",
+          model: hasImage ? "meta-llama/llama-4-scout-17b-16e-instruct" : "llama-3.3-70b-versatile",
           temperature: activeTab === 'reformulatePanel' ? 0.7 : 0.3,
           messages: apiMessages
         });
@@ -1064,6 +1083,18 @@
         
         // Add assistant response
         addMessageToChat('assistant', result);
+        
+        // Clean up image after successful send
+        if (hasImage) {
+          const reformulatePreviewWrap = document.getElementById("reformulatePreviewWrap");
+          const reformulateRemoveImageBtn = document.getElementById("reformulateRemoveImageBtn");
+          const reformulateDropText = document.getElementById("reformulateDropText");
+          
+          reformulatePreview.src = "";
+          reformulatePreviewWrap.hidden = true;
+          reformulateRemoveImageBtn.hidden = true;
+          reformulateDropText.hidden = false;
+        }
         
       } catch (e) {
         addMessageToChat('assistant', `Erreur : ${e.message}`);
