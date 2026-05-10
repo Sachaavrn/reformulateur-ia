@@ -431,13 +431,34 @@
     }
 
     .chat-history-item:hover {
-      background: var(--violet-100);
-      transform: translateX(4px);
+      background: var(--violet-50);
     }
 
     .chat-history-item.active {
-      background: var(--violet-200);
-      border-color: var(--violet-600);
+      background: var(--violet-100);
+      border-left: 3px solid var(--violet-500);
+    }
+
+    .chat-title {
+      flex: 1;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .delete-chat-btn {
+      background: none;
+      border: none;
+      color: #ef4444;
+      cursor: pointer;
+      padding: 8px;
+      font-size: 14px;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .delete-chat-btn:hover {
+      opacity: 1;
+      color: #dc2626;
     }
 
     .chat-main {
@@ -739,9 +760,25 @@
           item.classList.add('active');
         }
         
-        const title = chat.messages[0]?.content?.substring(0, 30) + '...' || 'Nouvelle discussion';
-        item.textContent = title;
-        item.onclick = () => loadChat(chat.id);
+        const title = chat.messages[0]?.content?.substring(0, 20) || 'Nouvelle discussion';
+        
+        // Create title container
+        const titleContainer = document.createElement('div');
+        titleContainer.className = 'chat-title';
+        titleContainer.textContent = title;
+        titleContainer.onclick = () => loadChat(chat.id);
+        
+        // Create delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-chat-btn';
+        deleteBtn.innerHTML = '🗑';
+        deleteBtn.onclick = (e) => {
+          e.stopPropagation();
+          deleteChat(chat.id);
+        };
+        
+        item.appendChild(titleContainer);
+        item.appendChild(deleteBtn);
         
         historyList.appendChild(item);
       });
@@ -753,6 +790,19 @@
       const chat = chatHistory.find(c => c.id === chatId);
       if (chat) {
         renderChatMessages(chat.messages);
+        renderChatHistory();
+      }
+    }
+    
+    // Delete specific chat
+    function deleteChat(chatId) {
+      if (confirm('Supprimer cette discussion ?')) {
+        chatHistory = chatHistory.filter(c => c.id !== chatId);
+        if (currentChatId === chatId) {
+          // Create new empty chat if we deleted the current one
+          newChat();
+        }
+        saveChatHistory();
         renderChatHistory();
       }
     }
@@ -857,6 +907,8 @@
         document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         activeTab = btn.dataset.tabTarget;
+        // Update level options based on new tab
+        updateLevelOptions();
       });
     });
 
@@ -865,12 +917,36 @@
     const targetGrade = document.getElementById("targetGrade");
     const gradeDisplay = document.getElementById("gradeDisplay");
 
+    // Function to update level options based on active tab
+    function updateLevelOptions() {
+      const levelSelect = document.getElementById("level");
+      levelSelect.innerHTML = '';
+      
+      if (activeTab === 'reformulatePanel') {
+        const reformulateurLevels = ['6ème', '5ème', '4ème', '3ème', '2nde', '1ère', 'Terminale', 'Post-Bac'];
+        reformulateurLevels.forEach(level => {
+          const option = document.createElement('option');
+          option.value = level;
+          option.textContent = level;
+          levelSelect.appendChild(option);
+        });
+      } else {
+        const mathsLevels = ['6ème', '5ème', '4ème', '3ème', '2nde', '1ère STMG', '1ère Spécialité', 'Terminale STMG', 'Terminale Spécialité', 'Terminale Maths Expertes', 'Post-Bac'];
+        mathsLevels.forEach(level => {
+          const option = document.createElement('option');
+          option.value = level;
+          option.textContent = level;
+          levelSelect.appendChild(option);
+        });
+      }
+    }
+
     level.addEventListener("change", () => {
       // Notify AI of parameter change
       handleParameterChange();
     });
 
-    targetGrade.addEventListener("input", () => {
+    targetGrade.addEventListener("change", () => {
       gradeDisplay.textContent = `Note visée : ${targetGrade.value}/20`;
       // Notify AI of parameter change
       handleParameterChange();
@@ -997,6 +1073,7 @@
             "calcul différentiel, etc.).\n\n" +
             "RÈGLE DE BLOCAGE ABSOLUE - NIVEAU TRANSMIS : " + lvl + "\n\n" +
             "AVANT de résoudre, compare l'exercice au niveau " + lvl + ". " +
+            "SI LE NIVEAU EST TROP ÉLEVÉ, TU DOIS RÉPONDRE EXCLUSIVEMENT PAR LE MESSAGE D'ERREUR. IL EST INTERDIT DE DONNER LA RÉPONSE MÊME SI TU FINIS PAR DIRE QUE C'EST TROP DUR.\n\n" +
             "Si l'exercice est d'un niveau supérieur, tu as l'INTERDICTION STRICTE de donner la solution ou une partie de la solution. " +
             "Tu dois répondre UNIQUEMENT par :\n\n" +
             "❌ Niveau inadapté. Cet exercice relève du programme de [NIVEAU_DETECTÉ] (notions : [LISTE]) et ne peut pas être résolu avec un profil de " + lvl + ".\n\n" +
@@ -1107,7 +1184,8 @@
     // ---- INITIALIZATION ----
     window.onload = () => {
       loadChatHistory();
-      newChat(); // Start with a new chat
+      renderChatHistory();
+      // Don't create new chat automatically, just load existing or stay empty
     };
     
     // ---- API ----
