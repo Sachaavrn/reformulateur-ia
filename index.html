@@ -1117,14 +1117,19 @@
             "- Présentation correcte mais brouillonne\n" +
             "- Des étapes manquantes ou mal justifiées\n\n" +
             "Si la note est entre 0 et 8/20 (TRÈS MÉDIOCRE) :\n" +
-            "- L'IA doit produire une réponse très médiocre\n" +
-            "- Erreurs de calcul flagrantes et nombreuses\n" +
-            "- Oubli d'étapes cruciales\n" +
-            "- Vocabulaire imprécis et rédaction très maladroite\n" +
-            "- Raisonnement confus et incomplet\n" +
-            "- Certaines questions non traitées ou hors sujet\n" +
-            "- Présentation désorganisée, peu claire\n" +
-            "- Méthodes parfois incorrectes pour le niveau\n\n" +
+            "- L'IA DOIT introduire des VRAIES erreurs d'élève caractéristiques du niveau " + lvl + ".\n" +
+            "- ERREURS DE CALCUL : ex: $2x + 3x = 6x$ au lieu de 5x$, ou $(-3)^2 = -9$ au lieu de 9$.\n" +
+            "- OUBLI D'ÉTAPE : ex: oublier de diviser par $2a$ dans le discriminant, ou oublier une condition de positivité.\n" +
+            "- RAISONNEMENT CONFUS : ex: mélanger les conditions ou faire des déductions fausses.\n" +
+            "- VOCABULAIRE IMPRÉCIS : utiliser des termes vagues comme 'ça fait environ' au lieu de 'la valeur est environ'.\n" +
+            "- PRÉSENTATION DÉSORDONNÉE : calculs mal alignés, pas de clarté dans les étapes.\n\n" +
+            "Si la note est entre 13 et 16/20 (ERREURS DE RIGUEUR) :\n" +
+            "- Les calculs sont justes mais la rédaction est bâclée.\n" +
+            "- MANQUE DE JUSTIFICATIONS : ex: ne pas citer le théorème de Pythagore utilisé, ou ne pas expliquer le changement de variable.\n" +
+            "- OUBLI D'UNITÉS : ex: oublier de mettre 'cm²' après une aire, ou confondre 'm' et 'cm'.\n" +
+            "- CONFUSION VALEUR EXACTE/ARRONDIE : ex: donner 3,14 au lieu de π, ou arrondir trop tôt.\n" +
+            "- RÉDACTION HÂTIVE : style trop direct, manque de connecteurs logiques, phrases mal structurées.\n\n" +
+            "CONSIGNE DE BLOCAGE : Rappelle-lui que si le niveau est trop élevé, elle ne doit TOUJOURS PAS répondre, quelle que soit la note visée.\n\n" +
             "CONSIGNE IMPÉRATIVE : Intègre ces défauts naturellement dans la correction produite. " +
             "À la fin de ce que tu as rédigé, mentionne les erreurs que tu as commises exprès ou comment tu as adapté ton style. " +
             "Par exemple : 'ERREURS VOLONTAIRES : J'ai oublié le signe moins à l'étape 3, j'ai inversé les fractions dans le calcul final'. " +
