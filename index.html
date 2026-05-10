@@ -1289,21 +1289,6 @@
       if (window.MathJax?.typesetPromise) await window.MathJax.typesetPromise([mathOutput]);
     }
 
-    function markdownToHtml(text) {
-      return text
-        .replace(/^#### (.+)$/gm, "<h5>$1</h5>")
-        .replace(/^### (.+)$/gm, "<h4>$1</h4>")
-        .replace(/^## (.+)$/gm, "<h3>$1</h3>")
-        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-        .replace(/\*(.+?)\*/g, "<em>$1</em>")
-        .replace(/\n\n/g, "</p><p>")
-        .replace(/\n/g, "<br>")
-        .replace(/^<p>/, "")
-        .replace(/<\/p>$/, "")
-        .replace(/^/, "<p>")
-        .replace(/$/, "</p>");
-    }
-
     solveBtn.addEventListener("click", async () => {
       const exercise = document.getElementById("mathInput").value.trim();
       const lvl = mathLevel.value;
