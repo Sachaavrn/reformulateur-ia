@@ -381,10 +381,247 @@
       font-weight: 500;
     }
 
+    /* Chat Interface Styles */
+    .chat-container {
+      display: flex;
+      height: calc(100vh - 80px);
+      gap: 0;
+    }
+
+    .chat-sidebar {
+      width: 300px;
+      background: var(--violet-50);
+      border-right: 1px solid var(--violet-200);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--violet-200);
+      background: var(--violet-100);
+    }
+
+    .sidebar-header h3 {
+      margin: 0 0 12px 0;
+      font-size: 0.9rem;
+      color: var(--violet-900);
+    }
+
+    .new-chat-btn {
+      width: 100%;
+      padding: 8px;
+      font-size: 0.85rem;
+    }
+
+    .chat-history {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+    }
+
+    .chat-history-item {
+      padding: 12px;
+      margin-bottom: 8px;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid var(--violet-200);
+    }
+
+    .chat-history-item:hover {
+      background: var(--violet-100);
+      transform: translateX(4px);
+    }
+
+    .chat-history-item.active {
+      background: var(--violet-200);
+      border-color: var(--violet-600);
+    }
+
+    .chat-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: white;
+    }
+
+    .chat-config {
+      padding: 16px;
+      background: var(--violet-50);
+      border-bottom: 1px solid var(--violet-200);
+    }
+
+    .config-row {
+      display: flex;
+      gap: 20px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .config-item {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .config-item label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--violet-900);
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      background: linear-gradient(180deg, #faf8ff 0%, #f8f6ff 100%);
+    }
+
+    .welcome-message {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--violet-600);
+    }
+
+    .welcome-message p {
+      margin: 8px 0;
+      font-size: 1.1rem;
+    }
+
+    .message {
+      margin-bottom: 16px;
+      display: flex;
+      align-items: flex-start;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message.assistant {
+      justify-content: flex-start;
+    }
+
+    .message-bubble {
+      max-width: 70%;
+      padding: 12px 16px;
+      border-radius: 18px;
+      word-wrap: break-word;
+      line-height: 1.5;
+    }
+
+    .message.user .message-bubble {
+      background: var(--violet-600);
+      color: white;
+      border-bottom-right-radius: 6px;
+    }
+
+    .message.assistant .message-bubble {
+      background: white;
+      color: var(--violet-900);
+      border: 1px solid var(--violet-200);
+      border-bottom-left-radius: 6px;
+      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
+    }
+
+    .message-time {
+      font-size: 0.75rem;
+      color: var(--violet-500);
+      margin: 4px 8px 0 0;
+    }
+
+    .chat-input-container {
+      padding: 16px;
+      background: white;
+      border-top: 1px solid var(--violet-200);
+    }
+
+    .chat-input-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      margin-bottom: 12px;
+    }
+
+    #chatInput {
+      flex: 1;
+      border: 2px solid var(--violet-200);
+      border-radius: 24px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      resize: none;
+      min-height: 48px;
+      max-height: 120px;
+      transition: border-color 0.2s;
+    }
+
+    #chatInput:focus {
+      outline: none;
+      border-color: var(--violet-600);
+    }
+
+    .send-btn {
+      border-radius: 24px;
+      padding: 12px 24px;
+      font-weight: 600;
+    }
+
+    .input-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+      .chat-container {
+        flex-direction: column;
+        height: calc(100vh - 60px);
+      }
+      
+      .chat-sidebar {
+        width: 100%;
+        height: 200px;
+        border-right: none;
+        border-bottom: 1px solid var(--violet-200);
+      }
+      
+      .config-row {
+        flex-direction: column;
+        gap: 12px;
+      }
+      
+      .config-item {
+        min-width: auto;
+      }
+    }
+
     @media (max-width: 640px) {
       .header, .content { padding: 16px; }
       .header h1 { font-size: 1.4rem; }
       body { padding: 12px; }
+      
+      .message-bubble {
+        max-width: 85%;
+      }
+      
+      .chat-input-wrapper {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .send-btn {
+        width: 100%;
+        border-radius: 12px;
+      }
     }
   </style>
 </head>
@@ -395,144 +632,413 @@
       <p>L'assistant intelligent pour tes textes et tes maths, adapté à ton niveau.</p>
     </header>
 
-    <section class="content">
-      <div style="text-align: center; margin-bottom: 20px; padding: 16px; background: var(--violet-100); border-radius: 12px; color: var(--violet-900);">
-        <p style="margin: 0; font-size: 0.95rem; line-height: 1.5;">
-          Choisis entre le <strong>Reformulateur</strong> pour améliorer tes textes en français 
-          ou le module <strong>Maths</strong> pour corriger tes exercices avec le niveau adapté.
-        </p>
-      </div>
-      
-      <div class="tabs">
-        <button class="tab-btn active" data-tab-target="reformulatePanel" type="button">Reformulateur</button>
-        <button class="tab-btn" data-tab-target="mathPanel" type="button">Maths</button>
-      </div>
+    <section class="chat-container">
+      <!-- Sidebar pour l'historique -->
+      <aside class="chat-sidebar">
+        <div class="sidebar-header">
+          <h3>Historique des discussions</h3>
+          <button class="btn-secondary new-chat-btn" id="newChatBtn">Nouvelle discussion</button>
+        </div>
+        <div class="chat-history" id="chatHistoryList">
+          <!-- Historique sera ajouté dynamiquement -->
+        </div>
+      </aside>
 
-      <!-- ONGLET REFORMULATEUR -->
-      <section id="reformulatePanel" class="tab-panel">
-        <div>
-          <label>Texte à reformuler</label>
-          <textarea id="inputText" placeholder="Colle ici un texte généré par une IA..."></textarea>
-          <div class="controls" style="margin-top:10px">
+      <!-- Zone principale de chat -->
+      <main class="chat-main">
+        <!-- Options de configuration -->
+        <div class="chat-config">
+          <div class="config-row">
+            <div class="config-item">
+              <label>Module</label>
+              <div class="tabs">
+                <button class="tab-btn active" data-tab-target="reformulatePanel" type="button">Reformulateur</button>
+                <button class="tab-btn" data-tab-target="mathPanel" type="button">Maths</button>
+              </div>
+            </div>
+            <div class="config-item">
+              <label>Niveau scolaire</label>
+              <select id="level">
+                <option>6ème</option><option>5ème</option><option>4ème</option>
+                <option>3ème</option><option>2nde</option><option>1ère</option>
+                <option>Terminale</option>
+              </select>
+            </div>
+            <div class="config-item">
+              <label>Note visée</label>
+              <input type="range" id="targetGrade" min="0" max="20" step="1" value="14">
+              <p id="gradeDisplay" class="grade-display">Note visée : 14/20</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Zone de chat -->
+        <div class="chat-messages" id="chatMessages">
+          <div class="welcome-message">
+            <p>Bonjour ! Je suis ScolarIA, ton assistant intelligent pour les textes et les maths.</p>
+            <p>Choisis un module (Reformulateur ou Maths) et envoie-moi ton premier message.</p>
+          </div>
+        </div>
+
+        <!-- Zone de saisie -->
+        <div class="chat-input-container">
+          <div class="chat-input-wrapper">
+            <textarea id="chatInput" placeholder="Tape ton message ici..." rows="1"></textarea>
+            <button class="btn-primary send-btn" id="sendBtn" type="button">Envoyer</button>
+          </div>
+          <div class="input-controls">
             <button class="btn-secondary" id="reformulateImageBtn" type="button">Importer une photo</button>
             <input class="image-picker" id="reformulateImageInput" type="file" accept="image/*">
-          </div>
-          <div id="reformulateDropZone" class="upload-zone" tabindex="0">
-            <p id="reformulateDropText" class="upload-zone-text">Glisse une photo ici ou colle (Ctrl+V)</p>
-            <div id="reformulatePreviewWrap" class="preview-wrap" hidden>
-              <img id="reformulatePreview" class="preview-image" alt="Aperçu">
-              <button class="remove-image-btn" id="reformulateRemoveImageBtn" type="button" hidden>✕</button>
+            <div id="reformulateDropZone" class="upload-zone" tabindex="0">
+              <p id="reformulateDropText" class="upload-zone-text">Glisse une photo ici ou colle (Ctrl+V)</p>
+              <div id="reformulatePreviewWrap" class="preview-wrap" hidden>
+                <img id="reformulatePreview" class="preview-image" alt="Aperçu">
+                <button class="remove-image-btn" id="reformulateRemoveImageBtn" type="button" hidden>✕</button>
+              </div>
             </div>
           </div>
         </div>
-
-        <div>
-          <label>Niveau scolaire</label>
-          <select id="level">
-            <option>6ème</option><option>5ème</option><option>4ème</option>
-            <option>3ème</option><option>2nde</option><option>1ère</option>
-            <option>Terminale</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Note visée</label>
-          <input type="range" id="targetGrade" min="0" max="20" step="1" value="14">
-          <p id="gradeDisplay" class="grade-display">Note visée : 14/20</p>
-        </div>
-
-        <div class="controls">
-          <button class="btn-primary" id="reformulateBtn">Reformuler</button>
-          <button class="btn-secondary" id="copyBtn" disabled>Copier le résultat</button>
-        </div>
-
-        <div>
-          <label>Résultat</label>
-          <div id="outputText" class="output">Le texte reformulé apparaîtra ici.</div>
-        </div>
-      </section>
-
-      <!-- ONGLET MATHS -->
-      <section id="mathPanel" class="tab-panel" hidden>
-        <div>
-          <label>Niveau de maths</label>
-          <select id="mathLevel">
-            <option>6ème</option>
-            <option>5ème</option>
-            <option>4ème</option>
-            <option>3ème</option>
-            <option>2nde</option>
-            <option>1ère STMG</option>
-            <option>1ère Spécialité</option>
-            <option>Terminale STMG</option>
-            <option>Terminale Spécialité</option>
-            <option>Terminale Maths Expertes</option>
-            <option>Post-Bac</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Note visée</label>
-          <input type="range" id="mathTargetGrade" min="0" max="20" step="1" value="14">
-          <p id="mathGradeDisplay" class="grade-display">Note visée : 14/20</p>
-        </div>
-
-        <div>
-          <label>Exercice</label>
-          <textarea id="mathInput" placeholder="Colle ou écris ici ton exercice de maths..."></textarea>
-          <div class="controls" style="margin-top:10px">
-            <button class="btn-secondary" id="mathImageBtn" type="button">Importer une photo</button>
-            <input class="image-picker" id="mathImageInput" type="file" accept="image/*">
-          </div>
-          <div id="mathDropZone" class="upload-zone" tabindex="0">
-            <p id="mathDropText" class="upload-zone-text">Glisse une photo ici ou colle (Ctrl+V)</p>
-            <div id="mathPreviewWrap" class="preview-wrap" hidden>
-              <img id="mathPreview" class="preview-image" alt="Aperçu exercice">
-              <button class="remove-image-btn" id="mathRemoveImageBtn" type="button" hidden>✕</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="controls">
-          <button class="btn-primary" id="solveBtn">Résoudre</button>
-          <button class="btn-secondary" id="mathCopyBtn" disabled>Copier la correction</button>
-        </div>
-
-        <div class="math-output-parent">
-          <label>Correction</label>
-          <div class="math-output-wrapper" style="overflow-x:auto; overflow-y:visible; -webkit-overflow-scrolling:touch; border:1px dashed #cbbdff; border-radius:12px; background:#faf8ff; padding:14px; box-sizing:border-box; min-height:140px;">
-            <div id="mathOutput" style="min-width:0; word-break:break-word; line-height:1.7;">La correction apparaîtra ici.</div>
-          </div>
-        </div>
-      </section>
+      </main>
     </section>
-  </main>
 
+                
   <script>
+    // ---- CHAT MANAGEMENT ----
+    let chatHistory = [];
+    let currentChatId = Date.now();
+    let activeTab = 'reformulatePanel';
+    
+    // Load chat history from localStorage
+    function loadChatHistory() {
+      const saved = localStorage.getItem('scolariaChatHistory');
+      if (saved) {
+        chatHistory = JSON.parse(saved);
+        renderChatHistory();
+      }
+    }
+    
+    // Save chat history to localStorage
+    function saveChatHistory() {
+      localStorage.setItem('scolariaChatHistory', JSON.stringify(chatHistory));
+    }
+    
+    // Render chat history in sidebar
+    function renderChatHistory() {
+      const historyList = document.getElementById('chatHistoryList');
+      historyList.innerHTML = '';
+      
+      chatHistory.forEach(chat => {
+        const item = document.createElement('div');
+        item.className = 'chat-history-item';
+        if (chat.id === currentChatId) {
+          item.classList.add('active');
+        }
+        
+        const title = chat.messages[0]?.content?.substring(0, 30) + '...' || 'Nouvelle discussion';
+        item.textContent = title;
+        item.onclick = () => loadChat(chat.id);
+        
+        historyList.appendChild(item);
+      });
+    }
+    
+    // Load specific chat
+    function loadChat(chatId) {
+      currentChatId = chatId;
+      const chat = chatHistory.find(c => c.id === chatId);
+      if (chat) {
+        renderChatMessages(chat.messages);
+        renderChatHistory();
+      }
+    }
+    
+    // Create new chat
+    function newChat() {
+      const newChatObj = {
+        id: Date.now(),
+        messages: [],
+        timestamp: new Date().toISOString()
+      };
+      
+      chatHistory.unshift(newChatObj);
+      currentChatId = newChatObj.id;
+      
+      renderChatMessages([]);
+      renderChatHistory();
+      saveChatHistory();
+    }
+    
+    // Render chat messages
+    function renderChatMessages(messages) {
+      const messagesContainer = document.getElementById('chatMessages');
+      messagesContainer.innerHTML = '';
+      
+      if (messages.length === 0) {
+        messagesContainer.innerHTML = `
+          <div class="welcome-message">
+            <p>Bonjour ! Je suis ScolarIA, ton assistant intelligent pour les textes et les maths.</p>
+            <p>Choisis un module (Reformulateur ou Maths) et envoie-moi ton premier message.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      messages.forEach(msg => {
+        addMessageToChat(msg.role, msg.content, false);
+      });
+      
+      scrollToBottom();
+    }
+    
+    // Add message to chat
+    function addMessageToChat(role, content, save = true) {
+      const messagesContainer = document.getElementById('chatMessages');
+      
+      // Remove welcome message if it exists
+      const welcomeMsg = messagesContainer.querySelector('.welcome-message');
+      if (welcomeMsg) {
+        welcomeMsg.remove();
+      }
+      
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${role}`;
+      
+      const bubble = document.createElement('div');
+      bubble.className = 'message-bubble';
+      
+      if (role === 'user') {
+        bubble.textContent = content;
+      } else {
+        bubble.innerHTML = markdownToHtml(content);
+      }
+      
+      const time = document.createElement('div');
+      time.className = 'message-time';
+      time.textContent = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+      
+      messageDiv.appendChild(bubble);
+      if (role === 'user') {
+        messageDiv.appendChild(time);
+      }
+      
+      messagesContainer.appendChild(messageDiv);
+      
+      if (save) {
+        const currentChat = chatHistory.find(c => c.id === currentChatId);
+        if (currentChat) {
+          currentChat.messages.push({ role, content, timestamp: new Date().toISOString() });
+          saveChatHistory();
+        }
+      }
+      
+      scrollToBottom();
+    }
+    
+    // Auto-scroll to bottom
+    function scrollToBottom() {
+      const messagesContainer = document.getElementById('chatMessages');
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
     // ---- ONGLETS ----
     document.querySelectorAll(".tab-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        document.querySelectorAll(".tab-panel").forEach(p => {
-          p.hidden = p.id !== btn.dataset.tabTarget;
-        });
+        activeTab = btn.dataset.tabTarget;
       });
     });
 
     // ---- CURSEURS ----
     const targetGrade = document.getElementById("targetGrade");
     const gradeDisplay = document.getElementById("gradeDisplay");
-    const mathTargetGrade = document.getElementById("mathTargetGrade");
-    const mathGradeDisplay = document.getElementById("mathGradeDisplay");
 
     targetGrade.addEventListener("input", () => {
       gradeDisplay.textContent = `Note visée : ${targetGrade.value}/20`;
     });
-    mathTargetGrade.addEventListener("input", () => {
-      mathGradeDisplay.textContent = `Note visée : ${mathTargetGrade.value}/20`;
-    });
 
+    // ---- SEND MESSAGE ----
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const newChatBtn = document.getElementById('newChatBtn');
+    
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+    
+    newChatBtn.addEventListener('click', newChat);
+    
+    async function sendMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
+      
+      // Add user message to chat
+      addMessageToChat('user', message);
+      chatInput.value = '';
+      
+      // Show loading state
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Envoi...';
+      
+      try {
+        const currentChat = chatHistory.find(c => c.id === currentChatId);
+        const messages = currentChat ? currentChat.messages : [];
+        
+        // Build system prompt based on active tab and settings
+        const lvl = document.getElementById("level").value;
+        const note = Number(targetGrade.value);
+        
+        let systemPrompt;
+        if (activeTab === 'reformulatePanel') {
+          systemPrompt = `Tu es un assistant qui réécrit des textes générés par une IA pour qu'ils semblent écrits naturellement par un élève français de niveau ${lvl}. Adapte le vocabulaire, la syntaxe et le style. Le texte doit sembler authentique.\n\nNOTE VISÉE : ${note}/20\n\nSi la note est entre 18 et 20/20 (STYLE EXCELLENT) :\n- Style soutenu, connecteurs logiques avancés\n- Orthographe irréprochable\n- Vocabulaire riche et varié adapté au niveau ${lvl}\n- Phrases bien construites et fluides\n- Argumentation claire et développée\n\nSi la note est entre 13 et 17/20 (STYLE BON ÉLÈVE) :\n- Bon vocabulaire, phrases structurées\n- Peu ou pas de fautes d'orthographe\n- Vocabulaire correct avec quelques répétitions\n- Quelques maladresses de style\n- Argumentation correcte\n\nSi la note est entre 9 et 12/20 (STYLE MOYEN) :\n- Syntaxe correcte mais sans élégance\n- Vocabulaire basique, quelques maladresses\n- Quelques fautes d'orthographe et de grammaire\n- Vocabulaire limité avec des répétitions fréquentes\n- Phrases parfois mal construites\n- Argumentation incomplète\n\nSi la note est < 10/20 (STYLE TRÈS FAIBLE) :\n- Vocabulaire pauvre, répétitions\n- FAUTES RÉALISTES OBLIGATOIRES : 'sa' au lieu de 'ça', 'parceque' au lieu de 'parce que', 'ils on' au lieu de 'ils ont', 'je fesait' au lieu de 'je faisais'\n- Fautes de grammaire : mauvaises conjugaisons, accords incorrects\n- Phrases très courtes et maladroites\n- Nombreuses fautes d'orthographe et de grammaire\n- Vocabulaire très limité\n- Peu d'argumentation\n\nCONSIGNE IMPÉRATIVE : Intègre ces défauts naturellement dans le texte produit. Sépare clairement le texte reformulé de l'analyse avec une ligne horizontale et un titre en gras : '**ANALYSE DES ERREURS**'.\n\nDans l'analyse, explique pédagogiquement chaque faute d'orthographe et de grammaire pour que l'élève comprenne pourquoi sa note est basse. Sois précis et constructif.\n\nCes erreurs doivent être cohérentes avec le niveau ${lvl} de l'élève.\n\nRéponds UNIQUEMENT avec le texte reformulé, suivi d'une ligne horizontale, du titre '**ANALYSE DES ERREURS**' en gras, puis de l'analyse pédagogique des erreurs.`;
+        } else {
+          systemPrompt = "Tu es un professeur de maths français expert.\n\n" +
+            "PROGRAMMES OFFICIELS PAR NIVEAU (à utiliser pour " +
+            "vérifier si l'exercice correspond au niveau choisi) :\n\n" +
+            "6ème : fractions simples, nombres décimaux, " +
+            "proportionnalité, périmètres et aires simples, " +
+            "symétrie axiale, angles.\n\n" +
+            "5ème : pourcentages, nombres relatifs, fractions " +
+            "avancées, théorème de Thalès (non), triangles, " +
+            "volumes simples, probabilités simples.\n\n" +
+            "4ème : puissances, racines carrées simples, " +
+            "développement et factorisation simples, équations " +
+            "du premier degré, Pythagore, trigonométrie basique " +
+            "(sin/cos/tan), statistiques simples.\n\n" +
+            "3ème : identités remarquables, équations et inéquations " +
+            "du premier degré, systèmes d'équations simples, " +
+            "fonctions linéaires et affines, Pythagore, Thalès, " +
+            "trigonométrie (sin/cos/tan), statistiques, " +
+            "probabilités, notion de vecteur.\n\n" +
+            "2nde : fonctions (affine, carré, inverse, racine), " +
+            "équations du second degré (sans discriminant complexe), " +
+            "géométrie analytique basique, vecteurs, statistiques " +
+            "descriptives, probabilités conditionnelles simples, " +
+            "systèmes d'équations.\n\n" +
+            "1ère STMG : suites arithmétiques et géométriques " +
+            "simples, fonctions du second degré sans dérivées " +
+            "complexes, statistiques à deux variables, " +
+            "mathématiques financières basiques, pourcentages " +
+            "d'évolution.\n\n" +
+            "1ère Spécialité : dérivées (polynômes, quotients), " +
+            "fonctions (variations, extremums), suites numériques, " +
+            "trigonométrie (cos/sin généralisés), géométrie " +
+            "dans l'espace, probabilités (loi binomiale), " +
+            "combinatoire basique.\n\n" +
+            "Terminale STMG : suites arithmétiques et géométriques " +
+            "appliquées, mathématiques financières (annuités, " +
+            "emprunts), statistiques et probabilités niveau STMG, " +
+            "fonctions logarithme et exponentielle niveau STMG " +
+            "(applications concrètes uniquement).\n\n" +
+            "Terminale Spécialité : intégrales simples (définition, " +
+            "calcul de primitives polynomiales, exponentielles), " +
+            "dérivées avancées, limites de fonctions et de suites, " +
+            "probabilités (loi normale, intervalle de confiance), " +
+            "géométrie dans l'espace avec vecteurs, " +
+            "nombres complexes (module, argument, forme " +
+            "trigonométrique basique), logarithme népérien.\n\n" +
+            "Terminale Maths Expertes : arithmétique (PGCD, " +
+            "congruences), nombres complexes avancés (racines " +
+            "nièmes, transformations géométriques), matrices " +
+            "(calcul matriciel, inverse, systèmes), graphes, " +
+            "démonstrations par récurrence avancées.\n\n" +
+            "Post-Bac (sans limite) : tout est autorisé. " +
+            "Résous sans restriction de programme avec le " +
+            "niveau de rigueur d'un étudiant en prépa ou " +
+            "à l'université (intégrales de fonctions " +
+            "rationnelles, séries, espaces vectoriels, " +
+            "calcul différentiel, etc.).\n\n" +
+            "RÈGLE DE BLOCAGE ABSOLUE - NIVEAU TRANSMIS : " + lvl + "\n\n" +
+            "AVANT de résoudre, compare l'exercice au niveau " + lvl + ". " +
+            "Si l'exercice est d'un niveau supérieur, tu as l'INTERDICTION STRICTE de donner la solution ou une partie de la solution. " +
+            "Tu dois répondre UNIQUEMENT par :\n\n" +
+            "❌ Niveau inadapté. Cet exercice relève du programme de [NIVEAU_DETECTÉ] (notions : [LISTE]) et ne peut pas être résolu avec un profil de " + lvl + ".\n\n" +
+            "NE SUPPOSE JAMAIS le niveau de l'utilisateur. Fie-toi UNIQUEMENT à la variable transmise (" + lvl + "). " +
+            "N'essaie pas d'adapter l'exercice, ne donne pas d'indices, ne commence aucun calcul. " +
+            "BLOCAGE TOTAL si le niveau ne correspond pas.\n\n" +
+            "UNIQUEMENT si toutes les notions de l'exercice sont dans le programme " + lvl + ", " +
+            "alors et seulement alors tu peux résoudre. Présentation comme sur une copie d'élève français.\n\n" +
+            "NOTE VISÉE : " + note + "/20\n\n" +
+            "Tu dois produire une correction qui correspond \n" +
+            "EXACTEMENT à cette note. Voici comment adapter \n" +
+            "ta réponse selon la note ET le niveau " + lvl + " :\n\n" +
+            "Si la note est entre 18 et 20/20 (EXCELLENCE) :\n" +
+            "- Rédaction parfaite, rigoureuse, utilisant tout le vocabulaire technique\n" +
+            "- Mise en forme LaTeX impeccable\n" +
+            "- Aucune erreur de calcul, même minime\n" +
+            "- Raisonnement parfaitement rigoureux et logique\n" +
+            "- Présentation impeccable avec tous les justificatifs\n" +
+            "- Toutes les étapes justifiées, aucune omission\n\n" +
+            "Si la note est entre 13 et 17/20 (BONNE RÉPONSE) :\n" +
+            "- Bonne réponse, bien rédigée, mais avec une ou deux petites imperfections mineures\n" +
+            "- Manque de détails sur les justifications complexes\n" +
+            "- 1 ou 2 petites erreurs de calcul (jamais sur le résultat final)\n" +
+            "- Raisonnement globalement correct avec quelques manques de justification\n" +
+            "- Présentation soignée mais pas parfaite\n" +
+            "- Quelques étapes sautées (ex: 'évident' sans démonstration)\n\n" +
+            "Si la note est entre 9 et 12/20 (MOYENNE) :\n" +
+            "- Le résultat final peut être juste, mais la rédaction doit être minimaliste\n" +
+            "- Quelques petites fautes de signe ou des explications peu claires\n" +
+            "- Style 'élève qui a compris mais qui manque de rigueur'\n" +
+            "- Plusieurs erreurs de calcul qui peuvent affecter le résultat\n" +
+            "- Raisonnement incomplet, certaines questions partiellement traitées\n" +
+            "- Présentation correcte mais brouillonne\n" +
+            "- Des étapes manquantes ou mal justifiées\n\n" +
+            "Si la note est entre 0 et 8/20 (TRÈS MÉDIOCRE) :\n" +
+            "- L'IA doit produire une réponse très médiocre\n" +
+            "- Erreurs de calcul flagrantes et nombreuses\n" +
+            "- Oubli d'étapes cruciales\n" +
+            "- Vocabulaire imprécis et rédaction très maladroite\n" +
+            "- Raisonnement confus et incomplet\n" +
+            "- Certaines questions non traitées ou hors sujet\n" +
+            "- Présentation désorganisée, peu claire\n" +
+            "- Méthodes parfois incorrectes pour le niveau\n\n" +
+            "CONSIGNE IMPÉRATIVE : Intègre ces défauts naturellement dans la correction produite. " +
+            "À la fin de ce que tu as rédigé, mentionne les erreurs que tu as commises exprès ou comment tu as adapté ton style. " +
+            "Par exemple : 'ERREURS VOLONTAIRES : J'ai oublié le signe moins à l'étape 3, j'ai inversé les fractions dans le calcul final'. " +
+            "Ceci pour montrer que les erreurs sont simulées selon la note demandée.\n\n" +
+            "IMPORTANT : Ces erreurs doivent être cohérentes \n" +
+            "avec le niveau " + lvl + ". Un élève de 6ème \n" +
+            "qui vise 8/20 ne fait pas les mêmes erreurs \n" +
+            "qu'un élève de Terminale qui vise 8/20.\n" +
+            "Ne mentionne jamais la note numérique dans ta réponse.";
+        }
+        
+        // Build messages array with history
+        const apiMessages = [
+          { role: "system", content: systemPrompt },
+          ...messages,
+          { role: "user", content: message }
+        ];
+        
+        const data = await callChatApi({
+          model: "llama-3.3-70b-versatile",
+          temperature: activeTab === 'reformulatePanel' ? 0.7 : 0.3,
+          messages: apiMessages
+        });
+        
+        const result = data?.choices?.[0]?.message?.content?.trim() || "";
+        if (!result) throw new Error("Réponse vide.");
+        
+        // Add assistant response
+        addMessageToChat('assistant', result);
+        
+      } catch (e) {
+        addMessageToChat('assistant', `Erreur : ${e.message}`);
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Envoyer';
+      }
+    }
+
+    // ---- INITIALIZATION ----
+    loadChatHistory();
+    newChat(); // Start with a new chat
+    
     // ---- API ----
     async function callChatApi(payload) {
       const res = await fetch("/api/chat", {
@@ -543,6 +1049,22 @@
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error?.message || "Erreur API");
       return data;
+    }
+
+    // ---- MARKDOWN TO HTML ----
+    function markdownToHtml(text) {
+      return text
+        .replace(/^#### (.+)$/gm, "<h5>$1</h5>")
+        .replace(/^### (.+)$/gm, "<h4>$1</h4>")
+        .replace(/^## (.+)$/gm, "<h3>$1</h3>")
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/\*(.+?)\*/g, "<em>$1</em>")
+        .replace(/\n\n/g, "</p><p>")
+        .replace(/\n/g, "<br>")
+        .replace(/^<p>/, "")
+        .replace(/<\/p>$/, "")
+        .replace(/^/, "<p>")
+        .replace(/$/, "</p>");
     }
 
     // ---- IMAGES ----
