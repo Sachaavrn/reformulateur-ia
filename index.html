@@ -519,7 +519,7 @@
     }
 
     .message.user .message-bubble {
-      background: var(--violet-600);
+      background: #1e293b;
       color: white;
       border-bottom-right-radius: 6px;
     }
@@ -1008,10 +1008,10 @@
             "Ne mentionne jamais la note numérique dans ta réponse.";
         }
         
-        // Build messages array with history
+        // Build messages array with history (remove timestamp property)
         const apiMessages = [
           { role: "system", content: systemPrompt },
-          ...messages,
+          ...messages.map(msg => ({ role: msg.role, content: msg.content })),
           { role: "user", content: message }
         ];
         
