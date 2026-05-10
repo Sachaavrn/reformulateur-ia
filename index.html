@@ -371,6 +371,16 @@
 
     .remove-image-btn:hover { background: #d62f45; }
 
+    .math-output-wrapper.error {
+      border: 2px solid #dc2626;
+      background: #fef2f2;
+    }
+
+    .math-output-wrapper.error #mathOutput {
+      color: #991b1b;
+      font-weight: 500;
+    }
+
     @media (max-width: 640px) {
       .header, .content { padding: 16px; }
       .header h1 { font-size: 1.4rem; }
@@ -750,7 +760,11 @@
       solveBtn.disabled = true;
       solveBtn.textContent = "Résolution en cours...";
       mathCopyBtn.disabled = true;
-      mathOutput.textContent = "En cours...";
+      
+      // Réinitialiser l'UI pour une nouvelle tentative
+      const mathWrapper = document.querySelector('.math-output-wrapper');
+      mathWrapper.classList.remove('error');
+      mathOutput.textContent = "La correction apparaîtra ici.";
 
       const systemPrompt =
         "Tu es un professeur de maths français expert.\n\n" +
@@ -809,50 +823,58 @@
         "à l'université (intégrales de fonctions " +
         "rationnelles, séries, espaces vectoriels, " +
         "calcul différentiel, etc.).\n\n" +
-        "RÈGLE STRICTE : Compare les notions de l'exercice " +
+        "RÈGLE ABSOLUE DE GARDE-FOU : Compare IMPÉRATIVEMENT les notions de l'exercice " +
         "avec le programme du niveau choisi. Si l'exercice " +
-        "utilise des notions absentes de ce programme, " +
-        "réponds UNIQUEMENT :\n❌ Cet exercice ne correspond pas au niveau " +
-        lvl +
-        ".\nNotions hors programme : [liste précise].\nChange le niveau ou l'exercice.\n\n" +
-        "Si le niveau est correct, résous question par question " +
-        "dans l'ordre exact sans inventer d'étapes. " +
+        "utilise UNE SEULE notion absente de ce programme, " +
+        "TU DOIS IMPÉRATIVEMENT T'ARRÊTER. " +
+        "Ne génère AUCUNE amorce de solution, même partielle. " +
+        "Ne commence AUCUN calcul. " +
+        "Ta réponse DOIT commencer OBLIGATOIREMENT par '❌' " +
+        "suivi de :\n\n❌ Cet exercice ne correspond pas au niveau " + lvl + ".\n" +
+        "Notions hors programme : [liste précise des notions inappropriées].\n" +
+        "Change le niveau ou l'exercice.\n\n" +
+        "CETTE RÈGLE EST NON NÉGOCIABLE. AUCUNE EXCEPTION.\n\n" +
+        "UNIQUEMENT si le niveau est parfaitement correct, " +
+        "résous question par question dans l'ordre exact sans inventer d'étapes. " +
         "Présentation comme sur une copie d'élève français.\n\n" +
         "NOTE VISÉE : " + note + "/20\n\n" +
         "Tu dois produire une correction qui correspond \n" +
         "EXACTEMENT à cette note. Voici comment adapter \n" +
         "ta réponse selon la note ET le niveau " + lvl + " :\n\n" +
-        "Si note 18-20 :\n" +
-        "- Aucune erreur de calcul\n" +
-        "- Raisonnement parfaitement rigoureux\n" +
+        "Si note 18-20 (EXCELLENCE) :\n" +
+        "- Aucune erreur de calcul, même minime\n" +
+        "- Raisonnement parfaitement rigoureux et logique\n" +
         "- Présentation impeccable avec tous les justificatifs\n" +
         "- Vocabulaire mathématique précis et complet\n" +
-        "- Toutes les étapes justifiées\n\n" +
-        "Si note 14-17 :\n" +
-        "- 1 ou 2 petites erreurs de calcul (pas sur le résultat final)\n" +
-        "- Raisonnement globalement correct avec quelques \n" +
-        "  manques de justification\n" +
+        "- Toutes les étapes justifiées, aucune omission\n" +
+        "- Exemples : rédaction parfaite, théorèmes cités correctement\n\n" +
+        "Si note 14-17 (TRÈS BIEN) :\n" +
+        "- 1 ou 2 petites erreurs de calcul (jamais sur le résultat final)\n" +
+        "- Raisonnement globalement correct avec quelques manques de justification\n" +
         "- Présentation soignée mais pas parfaite\n" +
-        "- Quelques étapes sautées\n\n" +
-        "Si note 10-13 :\n" +
+        "- Quelques étapes sautées (ex: 'évident' sans démonstration)\n" +
+        "- Exemples : oubli d'une condition d'application, calcul intermédiaire erroné mais résultat final correct\n\n" +
+        "Si note 10-13 (ASSEZ BIEN) :\n" +
         "- Plusieurs erreurs de calcul qui affectent le résultat\n" +
-        "- Raisonnement incomplet, certaines questions \n" +
-        "  partiellement traitées\n" +
+        "- Raisonnement incomplet, certaines questions partiellement traitées\n" +
         "- Présentation correcte mais brouillonne\n" +
         "- Des étapes manquantes ou mal justifiées\n" +
-        "- Parfois une mauvaise méthode utilisée\n\n" +
-        "Si note 6-9 :\n" +
-        "- Nombreuses erreurs de calcul\n" +
+        "- Parfois une mauvaise méthode utilisée\n" +
+        "- Exemples : erreur de signe dans une équation, confusion entre formules, oubli de cas particuliers\n\n" +
+        "Si note 6-9 (PASSABLE) :\n" +
+        "- Nombreuses erreurs de calcul (signes, fractions, pourcentages)\n" +
         "- Raisonnement confus et incomplet\n" +
         "- Certaines questions non traitées ou hors sujet\n" +
-        "- Présentation désorganisée\n" +
-        "- Méthodes parfois incorrectes pour le niveau\n\n" +
-        "Si note 0-5 :\n" +
+        "- Présentation désorganisée, peu claire\n" +
+        "- Méthodes parfois incorrectes pour le niveau\n" +
+        "- Exemples : inversion d'opérations, mauvaise application d'une formule, confusion entre concepts\n\n" +
+        "Si note 0-5 (INSUFFISANT) :\n" +
         "- Très nombreuses erreurs fondamentales\n" +
         "- Raisonnement incorrect ou absent\n" +
         "- Beaucoup de questions non traitées\n" +
-        "- Hors sujet partiel\n" +
-        "- Erreurs de base (signes, opérations simples)\n\n" +
+        "- Hors sujet partiel ou total\n" +
+        "- Erreurs de base (signes, opérations simples, lecture d'énoncé)\n" +
+        "- Exemples : 2+3=6, confusion addition/multiplication, incompréhension totale de l'énoncé\n\n" +
         "IMPORTANT : Ces erreurs doivent être cohérentes \n" +
         "avec le niveau " + lvl + ". Un élève de 6ème \n" +
         "qui vise 8/20 ne fait pas les mêmes erreurs \n" +
@@ -876,18 +898,31 @@
         const result = data?.choices?.[0]?.message?.content?.trim() || "";
         if (!result) throw new Error("Réponse vide.");
 
-        mathOutput.innerHTML = markdownToHtml(result);
-
-        // Restaurer la photo
-        if (persistedMathImageDataUrl) {
-          mPreview.src = persistedMathImageDataUrl;
-          mPreviewWrap.hidden = false;
-          mRemoveBtn.hidden = false;
-          mDropText.hidden = true;
+        // Détecter si c'est une réponse de refus (commence par ❌)
+        const isRefusal = result.startsWith('❌');
+        const mathWrapper = document.querySelector('.math-output-wrapper');
+        
+        if (isRefusal) {
+          // Appliquer le style d'erreur
+          mathWrapper.classList.add('error');
+          mathOutput.innerHTML = markdownToHtml(result);
+          mathCopyBtn.disabled = true;
+        } else {
+          // Style normal pour les corrections
+          mathWrapper.classList.remove('error');
+          mathOutput.innerHTML = markdownToHtml(result);
+          
+          // Restaurer la photo
+          if (persistedMathImageDataUrl) {
+            mPreview.src = persistedMathImageDataUrl;
+            mPreviewWrap.hidden = false;
+            mRemoveBtn.hidden = false;
+            mDropText.hidden = true;
+          }
+          
+          await renderMathJax();
+          mathCopyBtn.disabled = false;
         }
-
-        await renderMathJax();
-        mathCopyBtn.disabled = false;
       } catch (e) {
         mathOutput.textContent = `Erreur : ${e.message}`;
         mathCopyBtn.disabled = true;
