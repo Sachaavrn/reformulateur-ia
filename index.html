@@ -1064,8 +1064,10 @@
     }
 
     // ---- INITIALIZATION ----
-    loadChatHistory();
-    newChat(); // Start with a new chat
+    window.onload = () => {
+      loadChatHistory();
+      newChat(); // Start with a new chat
+    };
     
     // ---- API ----
     async function callChatApi(payload) {
@@ -1227,7 +1229,6 @@
 
     // ---- REFORMULER ----
     const reformulateBtn = document.getElementById("reformulateBtn");
-    const level = document.getElementById("level");
 
     reformulateBtn.addEventListener("click", async () => {
       const text = document.getElementById("inputText").value.trim();
