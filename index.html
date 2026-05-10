@@ -518,6 +518,11 @@
       line-height: 1.5;
     }
 
+    /* Math messages get full width for equations */
+    .message.assistant .message-bubble:has(.math-output) {
+      max-width: 90%;
+    }
+
     .message.user .message-bubble {
       background: #1e293b;
       color: white;
@@ -823,6 +828,11 @@
       }
       
       messagesContainer.appendChild(messageDiv);
+      
+      // Render MathJax for assistant messages
+      if (role === 'assistant' && window.MathJax?.typesetPromise) {
+        window.MathJax.typesetPromise([messageDiv]).catch(console.error);
+      }
       
       if (save) {
         const currentChat = chatHistory.find(c => c.id === currentChatId);
