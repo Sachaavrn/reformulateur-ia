@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>[ScolarIA]</title>
+  <title>ScolarIA</title>
   <script>
     window.MathJax = {
       tex: {
@@ -391,7 +391,7 @@
 <body>
   <main class="app">
     <header class="header">
-      <h1>[ScolarIA]</h1>
+      <h1>ScolarIA</h1>
       <p>L'assistant intelligent pour tes textes et tes maths, adapté à ton niveau.</p>
     </header>
 
@@ -844,45 +844,46 @@
         "Tu dois produire une correction qui correspond \n" +
         "EXACTEMENT à cette note. Voici comment adapter \n" +
         "ta réponse selon la note ET le niveau " + lvl + " :\n\n" +
-        "Si note 18-20 (EXCELLENCE) :\n" +
+        "Si la note est entre 18 et 20/20 (EXCELLENCE) :\n" +
+        "- Rédaction parfaite, rigoureuse, utilisant tout le vocabulaire technique\n" +
+        "- Mise en forme LaTeX impeccable\n" +
         "- Aucune erreur de calcul, même minime\n" +
         "- Raisonnement parfaitement rigoureux et logique\n" +
         "- Présentation impeccable avec tous les justificatifs\n" +
-        "- Vocabulaire mathématique précis et complet\n" +
-        "- Toutes les étapes justifiées, aucune omission\n" +
-        "- Exemples : rédaction parfaite, théorèmes cités correctement\n\n" +
-        "Si note 14-17 (TRÈS BIEN) :\n" +
+        "- Toutes les étapes justifiées, aucune omission\n\n" +
+        "Si la note est entre 13 et 17/20 (BONNE RÉPONSE) :\n" +
+        "- Bonne réponse, bien rédigée, mais avec une ou deux petites imperfections mineures\n" +
+        "- Manque de détails sur les justifications complexes\n" +
         "- 1 ou 2 petites erreurs de calcul (jamais sur le résultat final)\n" +
         "- Raisonnement globalement correct avec quelques manques de justification\n" +
         "- Présentation soignée mais pas parfaite\n" +
-        "- Quelques étapes sautées (ex: 'évident' sans démonstration)\n" +
-        "- Exemples : oubli d'une condition d'application, calcul intermédiaire erroné mais résultat final correct\n\n" +
-        "Si note 10-13 (ASSEZ BIEN) :\n" +
-        "- Plusieurs erreurs de calcul qui affectent le résultat\n" +
+        "- Quelques étapes sautées (ex: 'évident' sans démonstration)\n\n" +
+        "Si la note est entre 9 et 12/20 (MOYENNE) :\n" +
+        "- Le résultat final peut être juste, mais la rédaction doit être minimaliste\n" +
+        "- Quelques petites fautes de signe ou des explications peu claires\n" +
+        "- Style 'élève qui a compris mais qui manque de rigueur'\n" +
+        "- Plusieurs erreurs de calcul qui peuvent affecter le résultat\n" +
         "- Raisonnement incomplet, certaines questions partiellement traitées\n" +
         "- Présentation correcte mais brouillonne\n" +
-        "- Des étapes manquantes ou mal justifiées\n" +
-        "- Parfois une mauvaise méthode utilisée\n" +
-        "- Exemples : erreur de signe dans une équation, confusion entre formules, oubli de cas particuliers\n\n" +
-        "Si note 6-9 (PASSABLE) :\n" +
-        "- Nombreuses erreurs de calcul (signes, fractions, pourcentages)\n" +
+        "- Des étapes manquantes ou mal justifiées\n\n" +
+        "Si la note est entre 0 et 8/20 (TRÈS MÉDIOCRE) :\n" +
+        "- L'IA doit produire une réponse très médiocre\n" +
+        "- Erreurs de calcul flagrantes et nombreuses\n" +
+        "- Oubli d'étapes cruciales\n" +
+        "- Vocabulaire imprécis et rédaction très maladroite\n" +
         "- Raisonnement confus et incomplet\n" +
         "- Certaines questions non traitées ou hors sujet\n" +
         "- Présentation désorganisée, peu claire\n" +
-        "- Méthodes parfois incorrectes pour le niveau\n" +
-        "- Exemples : inversion d'opérations, mauvaise application d'une formule, confusion entre concepts\n\n" +
-        "Si note 0-5 (INSUFFISANT) :\n" +
-        "- Très nombreuses erreurs fondamentales\n" +
-        "- Raisonnement incorrect ou absent\n" +
-        "- Beaucoup de questions non traitées\n" +
-        "- Hors sujet partiel ou total\n" +
-        "- Erreurs de base (signes, opérations simples, lecture d'énoncé)\n" +
-        "- Exemples : 2+3=6, confusion addition/multiplication, incompréhension totale de l'énoncé\n\n" +
+        "- Méthodes parfois incorrectes pour le niveau\n\n" +
+        "INSTRUCTION CRUCIALE : L'IA doit dire explicitement les endroits où elle a fait des fautes voulues. " +
+        "Par exemple : '[ERREUR VOLONTAIRE] J'ai oublié le signe moins ici', " +
+        "'[ERREUR VOLONTAIRE] J'ai inversé les fractions', etc. " +
+        "Ceci pour montrer que les erreurs sont simulées selon la note demandée.\n\n" +
         "IMPORTANT : Ces erreurs doivent être cohérentes \n" +
         "avec le niveau " + lvl + ". Un élève de 6ème \n" +
         "qui vise 8/20 ne fait pas les mêmes erreurs \n" +
         "qu'un élève de Terminale qui vise 8/20.\n" +
-        "Ne mentionne jamais la note dans ta réponse.";
+        "Ne mentionne jamais la note numérique dans ta réponse.";
 
       try {
         const userMsg = persistedMathImageDataUrl
